@@ -8,10 +8,24 @@ A project scaffold for AI-native software development with Claude Code. This rep
 ai-native-dev-scaffold/
 ├── .claude/
 │   └── commands/
-│       └── project/           # Claude slash commands
-│           ├── start-pr.md    # /project:start-pr - Create PR paper trail
-│           ├── close-pr.md    # /project:close-pr - Complete PR documentation
-│           └── decision.md    # /project:decision - Create ADR
+│       ├── project/           # PR and decision workflow commands
+│       │   ├── start-pr.md    # /project:start-pr - Create PR paper trail
+│       │   ├── close-pr.md    # /project:close-pr - Complete PR documentation
+│       │   ├── decision.md    # /project:decision - Create ADR
+│       │   ├── context-update.md  # /project:context-update - Update living context
+│       │   └── context-status.md  # /project:context-status - View current context
+│       └── hl/                # Advanced workflow commands
+│           ├── create_plan.md     # /hl:create_plan - Create implementation plans
+│           ├── implement_plan.md  # /hl:implement_plan - Execute plans
+│           ├── iterate_plan.md    # /hl:iterate_plan - Update existing plans
+│           ├── validate_plan.md   # /hl:validate_plan - Verify implementation
+│           ├── execute_pr.md      # /hl:execute_pr - Implement from PR paper trail
+│           ├── commit.md          # /hl:commit - Create git commits
+│           ├── describe_pr.md     # /hl:describe_pr - Generate PR descriptions
+│           ├── debug.md           # /hl:debug - Debug issues
+│           ├── research_codebase.md   # /hl:research_codebase - Research and document code
+│           ├── create_handoff.md  # /hl:create_handoff - Create session handoffs
+│           └── resume_handoff.md  # /hl:resume_handoff - Resume from handoffs
 ├── docs/
 │   ├── .context/              # Living project context
 │   │   ├── ACTIVE_PRS.md      # Currently open PRs
@@ -19,6 +33,7 @@ ai-native-dev-scaffold/
 │   ├── decisions/             # Architecture Decision Records (ADRs)
 │   │   ├── _INDEX.md          # Decision catalog
 │   │   └── _TEMPLATE.md       # ADR template
+│   ├── handoffs/              # Session handoff documents
 │   └── prs/                   # PR paper trails
 │       └── _TEMPLATE/         # Template PR folder
 │           ├── RESEARCH.md    # Problem exploration & options
@@ -117,6 +132,114 @@ Creates a new Architecture Decision Record:
 - Updates the decision index
 
 Example: `/project:decision api-versioning-strategy`
+
+## Advanced Workflow Commands (`/hl:*`)
+
+These commands provide powerful workflows for complex development tasks.
+
+### Planning Commands
+
+#### `/hl:create_plan [task-file]`
+
+Create a detailed implementation plan through interactive research:
+- Researches the codebase to understand current state
+- Presents design options with trade-offs
+- Writes a phased implementation plan with success criteria
+
+Example: `/hl:create_plan docs/prs/2024-01-15-PR-042-auth/RESEARCH.md`
+
+#### `/hl:implement_plan [plan-path]`
+
+Execute an approved implementation plan:
+- Follows the plan phase by phase
+- Runs verification after each phase
+- Pauses for manual testing confirmation
+- Updates progress checkboxes in the plan
+
+Example: `/hl:implement_plan docs/prs/2024-01-15-PR-042-auth/PLAN.md`
+
+#### `/hl:iterate_plan [plan-path]`
+
+Update an existing plan based on feedback:
+- Makes surgical edits to specific sections
+- Researches if changes require new technical understanding
+- Maintains plan quality and consistency
+
+Example: `/hl:iterate_plan docs/prs/.../PLAN.md - add error handling phase`
+
+#### `/hl:validate_plan [plan-path]`
+
+Validate that a plan was correctly implemented:
+- Runs all automated verification steps
+- Identifies deviations from the plan
+- Generates a validation report with findings
+
+#### `/hl:execute_pr [number]`
+
+Implement from a PR paper trail:
+- Reads RESEARCH.md and PLAN.md
+- Executes implementation phases
+- Updates IMPLEMENTATION.md with progress
+
+Example: `/hl:execute_pr 042`
+
+### Git Commands
+
+#### `/hl:commit`
+
+Create git commits for session changes:
+- Reviews what changed in the session
+- Groups related changes into logical commits
+- Drafts clear commit messages
+- Gets user approval before committing
+
+#### `/hl:describe_pr [number]`
+
+Generate a comprehensive PR description:
+- Analyzes the diff and commit history
+- Runs verification commands
+- Fills out PR template with findings
+- Updates the PR on GitHub
+
+### Research & Debug Commands
+
+#### `/hl:research_codebase`
+
+Document the codebase through comprehensive research:
+- Answers questions by exploring code
+- Creates technical documentation
+- Spawns parallel sub-agents for efficiency
+- Documents what IS, not what SHOULD BE
+
+Example: `/hl:research_codebase - how does authentication work?`
+
+#### `/hl:debug`
+
+Debug issues by investigating logs and code:
+- Examines git history and recent changes
+- Reads logs and error messages
+- Presents findings and suggested fixes
+- Pure investigation, no file editing
+
+### Session Continuity Commands
+
+#### `/hl:create_handoff`
+
+Create a handoff document for another session:
+- Summarizes current task status
+- Documents learnings and discoveries
+- Lists artifacts created/modified
+- Defines next steps
+
+#### `/hl:resume_handoff [path]`
+
+Resume work from a handoff document:
+- Reads and validates handoff context
+- Verifies current codebase state
+- Creates action plan from handoff
+- Continues implementation
+
+Example: `/hl:resume_handoff docs/handoffs/2024-01-15_14-30-00_auth-flow.md`
 
 ## ADR Format
 

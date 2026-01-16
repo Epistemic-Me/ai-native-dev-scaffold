@@ -32,7 +32,9 @@ your-project/
 
 ## Available Commands
 
-### `/project:start-pr {number} {slug}`
+### Project Commands (`/project:*`)
+
+#### `/project:start-pr {number} {slug}`
 
 Creates a new PR paper trail folder with:
 - `RESEARCH.md` - Problem exploration and options analysis
@@ -41,7 +43,7 @@ Creates a new PR paper trail folder with:
 
 Example: `/project:start-pr 042 user-authentication`
 
-### `/project:close-pr {number}`
+#### `/project:close-pr {number}`
 
 Completes PR documentation:
 - Ensures all sections are filled
@@ -50,13 +52,34 @@ Completes PR documentation:
 
 Example: `/project:close-pr 042`
 
-### `/project:decision {slug}`
+#### `/project:decision {slug}`
 
 Creates a new Architecture Decision Record:
 - Auto-numbers based on existing ADRs
 - Updates the decision index
 
 Example: `/project:decision api-versioning-strategy`
+
+### Advanced Workflow Commands (`/hl:*`)
+
+#### Planning
+- `/hl:create_plan` - Create implementation plans through interactive research
+- `/hl:implement_plan` - Execute plans phase by phase with verification
+- `/hl:iterate_plan` - Update existing plans based on feedback
+- `/hl:validate_plan` - Verify implementation matches plan
+- `/hl:execute_pr` - Implement from PR paper trail
+
+#### Git
+- `/hl:commit` - Create git commits with user approval
+- `/hl:describe_pr` - Generate comprehensive PR descriptions
+
+#### Research & Debug
+- `/hl:research_codebase` - Document codebase through research
+- `/hl:debug` - Debug issues by investigating logs and code
+
+#### Session Continuity
+- `/hl:create_handoff` - Create handoff for another session
+- `/hl:resume_handoff` - Resume from handoff document
 
 ## Workflow
 
