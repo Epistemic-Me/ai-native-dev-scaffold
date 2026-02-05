@@ -1,12 +1,36 @@
 ---
-description: Create git commits with user approval
+description: Create git commits with user approval (enforces PR workflow)
 ---
 
 # Commit Changes
 
 You are tasked with creating git commits for the changes made during this session.
 
-## Process:
+## MANDATORY: Branch Safety Check
+
+**BEFORE creating ANY commits:**
+
+1. **Check current branch:**
+   ```bash
+   git branch --show-current
+   ```
+
+2. **If on `master` or `main`:**
+   - ❌ **STOP IMMEDIATELY**
+   - Tell user: "Cannot commit directly to [branch]. PR workflow required."
+   - Suggest: "Please create a feature branch: `git checkout -b feature/pr-XXX-description`"
+   - **DO NOT proceed with commits until on a feature branch**
+
+3. **Check for existing PR:**
+   ```bash
+   gh pr view --json number,url 2>/dev/null
+   ```
+   - If no PR exists, warn user and suggest creating one
+   - Can proceed without PR but must be on feature branch
+
+---
+
+## Process (after branch safety passes):
 
 1. **Think about what changed:**
    - Review the conversation history and understand what was accomplished
@@ -21,14 +45,16 @@ You are tasked with creating git commits for the changes made during this sessio
    - Focus on why the changes were made, not just what
 
 3. **Present your plan to the user:**
+   - Confirm current branch name
    - List the files you plan to add for each commit
    - Show the commit message(s) you'll use
-   - Ask: "I plan to create [N] commit(s) with these changes. Shall I proceed?"
+   - Ask: "I plan to create [N] commit(s) on branch `[branch-name]`. Shall I proceed?"
 
 4. **Execute upon confirmation:**
    - Use `git add` with specific files (never use `-A` or `.`)
    - Create commits with your planned messages
    - Show the result with `git log --oneline -n [number]`
+   - Suggest pushing: `git push -u origin [branch-name]`
 
 ## Commit Message Guidelines
 
@@ -62,8 +88,9 @@ Disables submit button while request is in flight.
 Closes #123
 ```
 
-## Remember:
-- You have the full context of what was done in this session
+## Important:
+- **NEVER commit to master/main** - this is non-negotiable
 - Group related changes together
 - Keep commits focused and atomic when possible
 - The user trusts your judgment - they asked you to commit
+- Always push to feature branch, never to master/main

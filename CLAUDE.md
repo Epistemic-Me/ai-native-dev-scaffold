@@ -2,6 +2,35 @@
 
 This file provides guidance to Claude Code instances when working with projects using this scaffold.
 
+## 🚨 MANDATORY: PR Workflow Rules
+
+**NEVER commit directly to master/main.** All code changes MUST follow PR workflow:
+
+### Before ANY Code Changes
+1. Check current branch: `git branch --show-current`
+2. If on master/main → **STOP** and create feature branch
+3. Check for PR: `gh pr view`
+4. If no PR → suggest creating draft PR
+
+### During Implementation
+- Work only on feature branches
+- Commit to feature branch (use `/hl:commit`)
+- Push to remote regularly
+
+### Before Merging
+- Always require human review
+- Never merge without approval
+- Use `/project:close-pr` after merge
+
+### Blocked Operations on master/main
+- ❌ `git commit` (any form)
+- ❌ `git push origin master/main`
+- ❌ File edits without branch check
+
+See `.claude/commands/shared/branch-safety.md` for enforcement details.
+
+---
+
 ## Philosophy
 
 This scaffold enables AI-native software development through:
@@ -85,11 +114,16 @@ Example: `/project:decision api-versioning-strategy`
 
 ### Starting Work on a Feature
 
-1. **Create PR paper trail**: `/project:start-pr {num} {slug}`
-2. **Research phase**: Fill in RESEARCH.md with problem statement and options
-3. **Planning phase**: Fill in PLAN.md with chosen approach and scope
-4. **Implementation**: Write code, update IMPLEMENTATION.md as you go
-5. **Close PR**: `/project:close-pr {num}` when merged
+1. **Create feature branch FIRST**: `git checkout -b feature/pr-{num}-{slug}`
+2. **Create PR paper trail**: `/project:start-pr {num} {slug}`
+3. **Create draft PR**: `gh pr create --draft --title "WIP: {description}"`
+4. **Research phase**: Fill in RESEARCH.md with problem statement and options
+5. **Planning phase**: Fill in PLAN.md with chosen approach and scope
+6. **Implementation**: Write code on feature branch, update IMPLEMENTATION.md
+7. **Commit regularly**: Use `/hl:commit` (enforces branch safety)
+8. **Push to remote**: `git push -u origin feature/pr-{num}-{slug}`
+9. **Request review**: Mark PR ready when done
+10. **Close PR**: `/project:close-pr {num}` after merge
 
 ### Making Architectural Decisions
 
