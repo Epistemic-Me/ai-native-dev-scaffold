@@ -1,10 +1,39 @@
 ---
-description: Implement technical plans with verification
+description: Implement technical plans with verification (enforces PR workflow)
 ---
 
 # Implement Plan
 
 You are tasked with implementing an approved technical plan. These plans contain phases with specific changes and success criteria.
+
+## MANDATORY: Branch Safety Check (BEFORE ANY IMPLEMENTATION)
+
+**FIRST, before reading the plan or making any changes:**
+
+1. **Check current branch:**
+   ```bash
+   git branch --show-current
+   ```
+
+2. **If on `master` or `main`:**
+   - ❌ **STOP IMMEDIATELY**
+   - Tell user: "Cannot implement on master/main. PR workflow required."
+   - Ask: "What PR number should this work be tracked under?"
+   - Help create branch: `git checkout -b feature/pr-{num}-{slug}`
+   - **DO NOT proceed until on feature branch**
+
+3. **Check for existing PR:**
+   ```bash
+   gh pr view --json number,url 2>/dev/null
+   ```
+   - If no PR exists, suggest creating draft PR first
+   - Run `/project:start-pr {num} {slug}` if paper trail doesn't exist
+   - Can proceed after PR/branch is set up
+
+4. **Confirm with user:**
+   - "I'm on branch `[name]` with PR #[num]. Ready to proceed with implementation."
+
+---
 
 ## Getting Started
 
@@ -63,6 +92,15 @@ After implementing a phase:
 If instructed to execute multiple phases consecutively, skip the pause until the last phase. Otherwise, assume you are just doing one phase.
 
 Do not check off items in the manual testing steps until confirmed by the user.
+
+## Committing Work
+
+After completing implementation:
+1. **Verify still on feature branch** (not master/main)
+2. Use `/hl:commit` to create commits (it will verify branch safety)
+3. Push to remote: `git push -u origin [branch-name]`
+4. Use `/hl:describe_pr` to update PR description
+5. Never merge without human review
 
 ## If You Get Stuck
 
