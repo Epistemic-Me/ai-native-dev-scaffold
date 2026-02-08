@@ -1,5 +1,6 @@
 ---
 description: Create detailed implementation plans through interactive research and iteration
+model: opus
 ---
 
 # Create Implementation Plan
@@ -25,6 +26,9 @@ Please provide:
 3. Links to related research or previous implementations
 
 I'll analyze this information and work with you to create a comprehensive plan.
+
+Tip: You can also invoke this command with a file directly: `/hl:create_plan path/to/ticket.md`
+For deeper analysis, try: `/hl:create_plan think deeply about path/to/ticket.md`
 ```
 
 Then wait for the user's input.
@@ -39,13 +43,21 @@ Then wait for the user's input.
    - Related implementation plans
    - Any JSON/data files mentioned
    - **IMPORTANT**: Use the Read tool WITHOUT limit/offset parameters to read entire files
+   - **CRITICAL**: DO NOT spawn sub-tasks before reading these files yourself in the main context
    - **NEVER** read files partially - if a file is mentioned, read it completely
 
 2. **Spawn initial research tasks to gather context**:
-   Before asking the user any questions, use the Task tool to research in parallel:
-   - Find all files related to the task
-   - Understand how the current implementation works
-   - Find any existing documentation about this feature
+   Before asking the user any questions, use specialized agents to research in parallel:
+
+   - Use the **codebase-locator** agent to find all files related to the task
+   - Use the **codebase-analyzer** agent to understand how the current implementation works
+   - If relevant, use the **thoughts-locator** agent to find any existing documentation about this feature
+
+   These agents will:
+   - Find relevant source files, configs, and tests
+   - Identify the specific directories to focus on
+   - Trace data flow and key functions
+   - Return detailed explanations with file:line references
 
 3. **Read all files identified by research tasks**:
    - After research tasks complete, read ALL files they identified as relevant
@@ -56,6 +68,7 @@ Then wait for the user's input.
    - Cross-reference the requirements with actual code
    - Identify any discrepancies or misunderstandings
    - Note assumptions that need verification
+   - Determine true scope based on codebase reality
 
 5. **Present informed understanding and focused questions**:
    ```
@@ -87,10 +100,24 @@ After getting initial clarifications:
 2. **Create a research todo list** using TodoWrite to track exploration tasks
 
 3. **Spawn parallel sub-tasks for comprehensive research**:
-   - Use the Task tool to research different aspects concurrently
-   - Find relevant source files, configs, and tests
+   - Create multiple Task agents to research different aspects concurrently
+   - Use the right agent for each type of research:
+
+   **For deeper investigation:**
+   - **codebase-locator** - To find more specific files (e.g., "find all files that handle [specific component]")
+   - **codebase-analyzer** - To understand implementation details (e.g., "analyze how [system] works")
+   - **codebase-pattern-finder** - To find similar features we can model after
+
+   **For historical context:**
+   - **thoughts-locator** - To find any research, plans, or decisions about this area
+   - **thoughts-analyzer** - To extract key insights from the most relevant documents
+
+   Each agent knows how to:
+   - Find the right files and code patterns
    - Identify conventions and patterns to follow
    - Look for integration points and dependencies
+   - Return specific file:line references
+   - Find tests and examples
 
 4. **Wait for ALL sub-tasks to complete** before proceeding
 
@@ -138,11 +165,17 @@ Once aligned on approach:
 
 After structure approval:
 
-1. **Write the plan** to `docs/prs/{date}-PR-{num}-{slug}/PLAN.md` or a dedicated plans directory
+1. **Write the plan** to `docs/plans/YYYY-MM-DD-description.md` or `docs/prs/{date}-PR-{num}-{slug}/PLAN.md`
+   - Format: `YYYY-MM-DD-description.md` where:
+     - YYYY-MM-DD is today's date
+     - description is a brief kebab-case description
+   - Examples:
+     - `2025-01-08-parent-child-tracking.md`
+     - `2025-01-08-improve-error-handling.md`
 
 2. **Use this template structure**:
 
-```markdown
+````markdown
 # [Feature/Task Name] Implementation Plan
 
 ## Overview
@@ -181,22 +214,31 @@ After structure approval:
 **File**: `path/to/file.ext`
 **Changes**: [Summary of changes]
 
+```[language]
+// Specific code to add/modify
+```
+
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Tests pass: `npm test`
+- [ ] Tests pass: `npm test` / `make test`
 - [ ] Type checking passes: `npm run typecheck`
-- [ ] Linting passes: `npm run lint`
+- [ ] Linting passes: `npm run lint` / `make lint`
+- [ ] Integration tests pass: `make test-integration`
 
 #### Manual Verification:
 - [ ] Feature works as expected when tested via UI
+- [ ] Performance is acceptable under load
+- [ ] Edge case handling verified manually
 - [ ] No regressions in related features
+
+**Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful before proceeding to the next phase.
 
 ---
 
 ## Phase 2: [Descriptive Name]
 
-[Similar structure...]
+[Similar structure with both automated and manual success criteria...]
 
 ---
 
@@ -212,20 +254,29 @@ After structure approval:
 ### Manual Testing Steps:
 1. [Specific step to verify feature]
 2. [Another verification step]
+3. [Edge case to test manually]
+
+## Performance Considerations
+
+[Any performance implications or optimizations needed]
+
+## Migration Notes
+
+[If applicable, how to handle existing data/systems]
 
 ## References
 
 - Original task: [link or description]
 - Related research: [links]
 - Similar implementation: [file:line]
-```
+````
 
 ### Step 5: Review and Iterate
 
 1. **Present the draft plan location**:
    ```
    I've created the initial implementation plan at:
-   `docs/prs/{path}/PLAN.md`
+   `docs/plans/YYYY-MM-DD-description.md`
 
    Please review it and let me know:
    - Are the phases properly scoped?
@@ -237,7 +288,7 @@ After structure approval:
 2. **Iterate based on feedback** - be ready to:
    - Add missing phases
    - Adjust technical approach
-   - Clarify success criteria
+   - Clarify success criteria (both automated and manual)
    - Add/remove scope items
 
 3. **Continue refining** until the user is satisfied
@@ -260,7 +311,7 @@ After structure approval:
    - Read all context files COMPLETELY before planning
    - Research actual code patterns using parallel sub-tasks
    - Include specific file paths and line numbers
-   - Write measurable success criteria
+   - Write measurable success criteria with clear automated vs manual distinction
 
 4. **Be Practical**:
    - Focus on incremental, testable changes
@@ -277,3 +328,81 @@ After structure approval:
    - If you encounter open questions during planning, STOP
    - Research or ask for clarification immediately
    - Do NOT write the plan with unresolved questions
+   - The implementation plan must be complete and actionable
+   - Every decision must be made before finalizing the plan
+
+## Success Criteria Guidelines
+
+**Always separate success criteria into two categories:**
+
+1. **Automated Verification** (can be run by execution agents):
+   - Commands that can be run: `make test`, `npm run lint`, etc.
+   - Specific files that should exist
+   - Code compilation/type checking
+   - Automated test suites
+
+2. **Manual Verification** (requires human testing):
+   - UI/UX functionality
+   - Performance under real conditions
+   - Edge cases that are hard to automate
+   - User acceptance criteria
+
+**Format example:**
+```markdown
+### Success Criteria:
+
+#### Automated Verification:
+- [ ] All unit tests pass: `npm test`
+- [ ] No linting errors: `npm run lint`
+- [ ] Type checking passes: `npm run typecheck`
+- [ ] API endpoint returns 200: `curl localhost:3000/api/new-endpoint`
+
+#### Manual Verification:
+- [ ] New feature appears correctly in the UI
+- [ ] Performance is acceptable with 1000+ items
+- [ ] Error messages are user-friendly
+- [ ] Feature works correctly on mobile devices
+```
+
+## Common Patterns
+
+### For Database Changes:
+- Start with schema/migration
+- Add store methods
+- Update business logic
+- Expose via API
+- Update clients
+
+### For New Features:
+- Research existing patterns first
+- Start with data model
+- Build backend logic
+- Add API endpoints
+- Implement UI last
+
+### For Refactoring:
+- Document current behavior
+- Plan incremental changes
+- Maintain backwards compatibility
+- Include migration strategy
+
+## Sub-task Spawning Best Practices
+
+When spawning research sub-tasks:
+
+1. **Spawn multiple tasks in parallel** for efficiency
+2. **Each task should be focused** on a specific area
+3. **Provide detailed instructions** including:
+   - Exactly what to search for
+   - Which directories to focus on
+   - What information to extract
+   - Expected output format
+4. **Be EXTREMELY specific about directories**:
+   - Include the full path context in your prompts
+5. **Specify read-only tools** to use
+6. **Request specific file:line references** in responses
+7. **Wait for all tasks to complete** before synthesizing
+8. **Verify sub-task results**:
+   - If a sub-task returns unexpected results, spawn follow-up tasks
+   - Cross-check findings against the actual codebase
+   - Don't accept results that seem incorrect

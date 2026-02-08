@@ -45,7 +45,9 @@ This scaffold enables AI-native software development through:
 your-project/
 ├── .claude/
 │   └── commands/
-│       └── project/           # PR and decision commands
+│       ├── hl/                # Advanced workflow commands
+│       ├── project/           # PR and decision commands
+│       └── shared/            # Shared utilities (branch safety)
 ├── docs/
 │   ├── .context/              # Living project context
 │   │   ├── ACTIVE_PRS.md      # Currently open PRs
@@ -53,8 +55,11 @@ your-project/
 │   ├── decisions/             # Architecture Decision Records
 │   │   ├── _INDEX.md          # Decision catalog
 │   │   └── _TEMPLATE.md       # ADR template
-│   └── prs/                   # PR paper trails
-│       └── _TEMPLATE/         # Template PR folder
+│   ├── handoffs/              # Session handoff documents
+│   ├── plans/                 # Implementation plans
+│   ├── prs/                   # PR paper trails
+│   │   └── _TEMPLATE/         # Template PR folder
+│   └── research/              # Codebase research documents
 ├── CLAUDE.md                  # This file
 └── ... your code ...
 ```
@@ -91,24 +96,39 @@ Example: `/project:decision api-versioning-strategy`
 
 ### Advanced Workflow Commands (`/hl:*`)
 
-#### Planning
-- `/hl:create_plan` - Create implementation plans through interactive research
+#### Planning & Implementation
+- `/hl:create_plan` - Create implementation plans through interactive research (model: opus)
+- `/hl:create_plan_nt` - Lightweight plan creation, no docs/ directory required (model: opus)
 - `/hl:implement_plan` - Execute plans phase by phase with verification
-- `/hl:iterate_plan` - Update existing plans based on feedback
+- `/hl:iterate_plan` - Update existing plans based on feedback (model: opus)
+- `/hl:iterate_plan_nt` - Lightweight plan iteration, no docs/ directory required (model: opus)
 - `/hl:validate_plan` - Verify implementation matches plan
 - `/hl:execute_pr` - Implement from PR paper trail
+- `/hl:oneshot` - Research ticket and launch planning session
+- `/hl:oneshot_plan` - Research, plan, and implement in one session
 
-#### Git
-- `/hl:commit` - Create git commits with user approval
-- `/hl:describe_pr` - Generate comprehensive PR descriptions
+#### Git & PR
+- `/hl:commit` - Create git commits with user approval (enforces branch safety)
+- `/hl:ci_commit` - Non-interactive commit for CI/automated workflows
+- `/hl:describe_pr` - Generate PR descriptions with paper trail integration
+- `/hl:ci_describe_pr` - Non-interactive PR description for CI workflows
+- `/hl:describe_pr_nt` - Lightweight PR description, no docs/ required
 
 #### Research & Debug
-- `/hl:research_codebase` - Document codebase through research
+- `/hl:research_codebase` - Document codebase with research doc generation (model: opus)
+- `/hl:research_codebase_generic` - Comprehensive research with parallel sub-agents (model: opus)
+- `/hl:research_codebase_nt` - Lightweight research, findings presented inline (model: opus)
 - `/hl:debug` - Debug issues by investigating logs and code
+
+#### Review
+- `/hl:local_review` - Review a colleague's PR locally with analysis
 
 #### Session Continuity
 - `/hl:create_handoff` - Create handoff for another session
 - `/hl:resume_handoff` - Resume from handoff document
+
+#### Special Modes
+- `/hl:founder_mode` - Rapid experimental development with bias toward action
 
 ## Workflow
 

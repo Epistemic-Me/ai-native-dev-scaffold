@@ -14,18 +14,30 @@ ai-native-dev-scaffold/
 │       │   ├── decision.md    # /project:decision - Create ADR
 │       │   ├── context-update.md  # /project:context-update - Update living context
 │       │   └── context-status.md  # /project:context-status - View current context
-│       └── hl/                # Advanced workflow commands
-│           ├── create_plan.md     # /hl:create_plan - Create implementation plans
-│           ├── implement_plan.md  # /hl:implement_plan - Execute plans
-│           ├── iterate_plan.md    # /hl:iterate_plan - Update existing plans
-│           ├── validate_plan.md   # /hl:validate_plan - Verify implementation
-│           ├── execute_pr.md      # /hl:execute_pr - Implement from PR paper trail
-│           ├── commit.md          # /hl:commit - Create git commits
-│           ├── describe_pr.md     # /hl:describe_pr - Generate PR descriptions
-│           ├── debug.md           # /hl:debug - Debug issues
-│           ├── research_codebase.md   # /hl:research_codebase - Research and document code
-│           ├── create_handoff.md  # /hl:create_handoff - Create session handoffs
-│           └── resume_handoff.md  # /hl:resume_handoff - Resume from handoffs
+│       ├── hl/                # Advanced workflow commands (22 commands)
+│       │   ├── create_plan.md         # /hl:create_plan - Interactive plan creation
+│       │   ├── create_plan_nt.md      # /hl:create_plan_nt - Lightweight plan (no docs/)
+│       │   ├── implement_plan.md      # /hl:implement_plan - Execute plans
+│       │   ├── iterate_plan.md        # /hl:iterate_plan - Update existing plans
+│       │   ├── iterate_plan_nt.md     # /hl:iterate_plan_nt - Lightweight iteration
+│       │   ├── validate_plan.md       # /hl:validate_plan - Verify implementation
+│       │   ├── execute_pr.md          # /hl:execute_pr - Implement from PR paper trail
+│       │   ├── oneshot.md             # /hl:oneshot - Research + plan in one go
+│       │   ├── oneshot_plan.md        # /hl:oneshot_plan - Research + plan + implement
+│       │   ├── commit.md              # /hl:commit - Git commits with branch safety
+│       │   ├── ci_commit.md           # /hl:ci_commit - Non-interactive commits
+│       │   ├── describe_pr.md         # /hl:describe_pr - PR descriptions
+│       │   ├── ci_describe_pr.md      # /hl:ci_describe_pr - Non-interactive PR desc
+│       │   ├── describe_pr_nt.md      # /hl:describe_pr_nt - Lightweight PR desc
+│       │   ├── debug.md               # /hl:debug - Debug issues
+│       │   ├── research_codebase.md   # /hl:research_codebase - Research + doc gen
+│       │   ├── research_codebase_generic.md  # Deep research with sub-agents
+│       │   ├── research_codebase_nt.md       # Lightweight inline research
+│       │   ├── local_review.md        # /hl:local_review - Review PRs locally
+│       │   ├── founder_mode.md        # /hl:founder_mode - Rapid development
+│       │   ├── create_handoff.md      # /hl:create_handoff - Session handoffs
+│       │   └── resume_handoff.md      # /hl:resume_handoff - Resume handoffs
+│       └── shared/            # Shared utilities
 ├── docs/
 │   ├── .context/              # Living project context
 │   │   ├── ACTIVE_PRS.md      # Currently open PRs
@@ -34,6 +46,8 @@ ai-native-dev-scaffold/
 │   │   ├── _INDEX.md          # Decision catalog
 │   │   └── _TEMPLATE.md       # ADR template
 │   ├── handoffs/              # Session handoff documents
+│   ├── plans/                 # Implementation plans
+│   ├── research/              # Codebase research documents
 │   └── prs/                   # PR paper trails
 │       └── _TEMPLATE/         # Template PR folder
 │           ├── RESEARCH.md    # Problem exploration & options
@@ -135,111 +149,134 @@ Example: `/project:decision api-versioning-strategy`
 
 ## Advanced Workflow Commands (`/hl:*`)
 
-These commands provide powerful workflows for complex development tasks.
+These commands provide powerful workflows for complex development tasks. Many are sourced from the [HumanLayer](https://github.com/humanlayer/humanlayer) project and adapted for this scaffold.
 
 ### Planning Commands
 
 #### `/hl:create_plan [task-file]`
 
-Create a detailed implementation plan through interactive research:
-- Researches the codebase to understand current state
+Create a detailed implementation plan through interactive research (uses opus model):
+- Researches codebase using parallel sub-agents (codebase-locator, codebase-analyzer, etc.)
 - Presents design options with trade-offs
-- Writes a phased implementation plan with success criteria
+- Writes phased plan with automated + manual success criteria
+- Saves to `docs/plans/` or `docs/prs/.../PLAN.md`
 
-Example: `/hl:create_plan docs/prs/2024-01-15-PR-042-auth/RESEARCH.md`
+#### `/hl:create_plan_nt [task-file]`
+
+Lightweight variant - no docs/ directory required. Plans written to user-specified location or presented inline.
 
 #### `/hl:implement_plan [plan-path]`
 
-Execute an approved implementation plan:
-- Follows the plan phase by phase
-- Runs verification after each phase
-- Pauses for manual testing confirmation
-- Updates progress checkboxes in the plan
+Execute an approved plan with branch safety enforcement:
+- Follows plan phase by phase with verification
+- Pauses for manual testing between phases
+- Updates checkboxes as work progresses
 
-Example: `/hl:implement_plan docs/prs/2024-01-15-PR-042-auth/PLAN.md`
+#### `/hl:iterate_plan [plan-path] [feedback]`
 
-#### `/hl:iterate_plan [plan-path]`
+Update an existing plan based on feedback (uses opus model):
+- Surgical edits to specific sections
+- Spawns research only when needed
 
-Update an existing plan based on feedback:
-- Makes surgical edits to specific sections
-- Researches if changes require new technical understanding
-- Maintains plan quality and consistency
+#### `/hl:iterate_plan_nt [plan-path] [feedback]`
 
-Example: `/hl:iterate_plan docs/prs/.../PLAN.md - add error handling phase`
+Lightweight variant - no docs/ directory required.
 
 #### `/hl:validate_plan [plan-path]`
 
-Validate that a plan was correctly implemented:
-- Runs all automated verification steps
-- Identifies deviations from the plan
-- Generates a validation report with findings
+Validate implementation matches plan:
+- Runs all automated verification
+- Identifies deviations
+- Generates validation report
 
 #### `/hl:execute_pr [number]`
 
-Implement from a PR paper trail:
-- Reads RESEARCH.md and PLAN.md
-- Executes implementation phases
-- Updates IMPLEMENTATION.md with progress
+Implement from PR paper trail (RESEARCH.md + PLAN.md).
 
-Example: `/hl:execute_pr 042`
+#### `/hl:oneshot [task-file]`
 
-### Git Commands
+Quick research-to-planning pipeline - reads a task, does focused research, creates a plan in one flow.
+
+#### `/hl:oneshot_plan [task-file]`
+
+End-to-end: research, plan, and implement in one session. Best for small-to-medium tasks.
+
+### Git & PR Commands
 
 #### `/hl:commit`
 
-Create git commits for session changes:
-- Reviews what changed in the session
-- Groups related changes into logical commits
-- Drafts clear commit messages
-- Gets user approval before committing
+Create git commits with user approval and branch safety enforcement:
+- Groups related changes into atomic commits
+- Enforces PR workflow (never commits to master/main)
+
+#### `/hl:ci_commit`
+
+Non-interactive commit for CI/automated workflows:
+- Same quality as `/hl:commit` but doesn't pause for user feedback
 
 #### `/hl:describe_pr [number]`
 
-Generate a comprehensive PR description:
-- Analyzes the diff and commit history
-- Runs verification commands
-- Fills out PR template with findings
-- Updates the PR on GitHub
+Generate PR description with paper trail integration:
+- Checks for PR templates and paper trail docs
+- Analyzes diff and runs verification
+- Updates PR on GitHub
+
+#### `/hl:ci_describe_pr [number]`
+
+Non-interactive PR description for CI workflows.
+
+#### `/hl:describe_pr_nt [number]`
+
+Lightweight PR description - no docs/ directory required.
 
 ### Research & Debug Commands
 
 #### `/hl:research_codebase`
 
-Document the codebase through comprehensive research:
-- Answers questions by exploring code
-- Creates technical documentation
-- Spawns parallel sub-agents for efficiency
+Comprehensive codebase research with document generation (uses opus model):
+- Spawns parallel sub-agents for efficient research
+- Generates research document to `docs/research/`
 - Documents what IS, not what SHOULD BE
 
-Example: `/hl:research_codebase - how does authentication work?`
+#### `/hl:research_codebase_generic`
+
+Most thorough research variant - aggressive agent deployment with detailed output.
+
+#### `/hl:research_codebase_nt`
+
+Lightweight research - findings presented inline, no file generation.
 
 #### `/hl:debug`
 
-Debug issues by investigating logs and code:
-- Examines git history and recent changes
-- Reads logs and error messages
-- Presents findings and suggested fixes
-- Pure investigation, no file editing
+Debug issues by investigating logs and code (read-only investigation).
 
-### Session Continuity Commands
+### Review
+
+#### `/hl:local_review [pr-number]`
+
+Review a colleague's PR locally:
+- Analyzes diff and CI status
+- Presents structured review with findings
+- Can post review to GitHub
+
+### Session Continuity
 
 #### `/hl:create_handoff`
 
-Create a handoff document for another session:
-- Summarizes current task status
-- Documents learnings and discoveries
-- Lists artifacts created/modified
-- Defines next steps
+Create handoff document with YAML frontmatter for session transfer.
 
 #### `/hl:resume_handoff [path]`
 
-Resume work from a handoff document:
-- Reads and validates handoff context
-- Verifies current codebase state
-- Creates action plan from handoff
-- Continues implementation
+Resume from handoff - validates state, creates action plan, continues work.
 
-Example: `/hl:resume_handoff docs/handoffs/2024-01-15_14-30-00_auth-flow.md`
+### Special Modes
+
+#### `/hl:founder_mode`
+
+Rapid experimental development:
+- Bias toward action over planning
+- Makes assumptions instead of asking
+- Still enforces branch safety and PRs
 
 ## ADR Format
 

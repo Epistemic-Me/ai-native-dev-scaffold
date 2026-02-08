@@ -1,5 +1,6 @@
 ---
 description: Iterate on existing implementation plans with thorough research and updates
+model: opus
 ---
 
 # Iterate Implementation Plan
@@ -11,7 +12,7 @@ You are tasked with updating existing implementation plans based on user feedbac
 When this command is invoked:
 
 1. **Parse the input to identify**:
-   - Plan file path (e.g., `docs/prs/{path}/PLAN.md`)
+   - Plan file path (e.g., `docs/plans/2025-01-08-feature.md` or `docs/prs/{path}/PLAN.md`)
    - Requested changes/feedback
 
 2. **Handle different input scenarios**:
@@ -21,6 +22,8 @@ When this command is invoked:
    I'll help you iterate on an existing implementation plan.
 
    Which plan would you like to update? Please provide the path to the plan file.
+
+   Tip: List recent plans with `ls -lt docs/plans/ | head`
    ```
    Wait for user input, then re-check for feedback.
 
@@ -63,10 +66,19 @@ If the user's feedback requires understanding new code patterns or validating as
 1. **Create a research todo list** using TodoWrite
 
 2. **Spawn parallel sub-tasks for research**:
-   Use the Task tool for each type of research needed:
-   - Find relevant files
-   - Understand implementation details
-   - Find similar patterns
+   Use the right agent for each type of research:
+
+   **For code investigation:**
+   - **codebase-locator** - To find relevant files
+   - **codebase-analyzer** - To understand implementation details
+   - **codebase-pattern-finder** - To find similar patterns
+
+   **For historical context:**
+   - **thoughts-locator** - To find related research or decisions
+   - **thoughts-analyzer** - To extract insights from documents
+
+   **Be EXTREMELY specific about directories**:
+   - Include full path context in prompts
 
 3. **Read any new files identified by research**:
    - Read them FULLY into the main context
@@ -169,3 +181,35 @@ Get user confirmation before proceeding.
    - If the requested change raises questions, ASK
    - Research or get clarification immediately
    - Do NOT update the plan with unresolved questions
+   - Every change must be complete and actionable
+
+## Success Criteria Guidelines
+
+When updating success criteria, always maintain the two-category structure:
+
+1. **Automated Verification** (can be run by execution agents):
+   - Commands that can be run: `make test`, `npm run lint`, etc.
+   - Specific files that should exist
+   - Code compilation/type checking
+
+2. **Manual Verification** (requires human testing):
+   - UI/UX functionality
+   - Performance under real conditions
+   - Edge cases that are hard to automate
+   - User acceptance criteria
+
+## Sub-task Spawning Best Practices
+
+When spawning research sub-tasks:
+
+1. **Only spawn if truly needed** - don't research for simple changes
+2. **Spawn multiple tasks in parallel** for efficiency
+3. **Each task should be focused** on a specific area
+4. **Provide detailed instructions** including:
+   - Exactly what to search for
+   - Which directories to focus on
+   - What information to extract
+   - Expected output format
+5. **Request specific file:line references** in responses
+6. **Wait for all tasks to complete** before synthesizing
+7. **Verify sub-task results** - if something seems off, spawn follow-up tasks
