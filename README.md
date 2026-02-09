@@ -8,12 +8,16 @@ A project scaffold for AI-native software development with Claude Code. This rep
 ai-native-dev-scaffold/
 ├── .claude/
 │   └── commands/
-│       ├── project/           # PR and decision workflow commands
-│       │   ├── start-pr.md    # /project:start-pr - Create PR paper trail
-│       │   ├── close-pr.md    # /project:close-pr - Complete PR documentation
-│       │   ├── decision.md    # /project:decision - Create ADR
-│       │   ├── context-update.md  # /project:context-update - Update living context
-│       │   └── context-status.md  # /project:context-status - View current context
+│       ├── project/           # PR lifecycle and decision workflow commands
+│       │   ├── start-pr.md       # /project:start-pr - Create branch + paper trail
+│       │   ├── implement-pr.md   # /project:implement-pr - Execute from PLAN.md
+│       │   ├── verify-pr.md      # /project:verify-pr - Run verification checks
+│       │   ├── close-pr.md       # /project:close-pr - Merge PR + complete docs
+│       │   ├── execute-pr.md     # /project:execute-pr - Full lifecycle orchestrator
+│       │   ├── pr-status.md      # /project:pr-status - PR progress view
+│       │   ├── decision.md       # /project:decision - Create ADR
+│       │   ├── context-update.md # /project:context-update - Update living context
+│       │   └── context-status.md # /project:context-status - Documentation health
 │       ├── hl/                # Advanced workflow commands (22 commands)
 │       │   ├── create_plan.md         # /hl:create_plan - Interactive plan creation
 │       │   ├── create_plan_nt.md      # /hl:create_plan_nt - Lightweight plan (no docs/)
@@ -119,33 +123,102 @@ Or keep them project-local by leaving them in `.claude/commands/`.
 
 ## Commands Reference
 
-### `/project:start-pr [number] [slug]`
+### PR Lifecycle Commands
 
-Creates a new PR paper trail folder with:
-- `RESEARCH.md` - Template for problem exploration
-- `PLAN.md` - Template for implementation planning
-- `IMPLEMENTATION.md` - Template for tracking what was built
+#### `/project:start-pr [number] [slug]`
+
+Creates feature branch and paper trail folder:
+- Creates `git checkout -b feature/pr-{num}-{slug}`
+- Creates `docs/prs/{date}-PR-{num}-{slug}/` with RESEARCH.md, PLAN.md, IMPLEMENTATION.md
+- Updates ACTIVE_PRS.md and commits paper trail
 
 Example: `/project:start-pr 042 user-authentication`
 
-### `/project:close-pr [number]`
+#### `/project:implement-pr [number]`
 
-Completes PR documentation:
-- Ensures all sections are filled
-- Updates status to "Complete"
-- Moves PR from active to merged in tracking docs
-- Prompts for ADR creation if decisions were made
+Executes implementation from PLAN.md with structured tracking:
+- Ensures correct feature branch
+- Parses tasks from PLAN.md into TodoWrite
+- Implements phase by phase with progress updates
+- Tracks deviations in IMPLEMENTATION.md
+- Prompts for verification when complete
+
+Example: `/project:implement-pr 042`
+
+#### `/project:verify-pr [number]`
+
+Runs all available project verification checks:
+- Auto-detects available tools (lint, typecheck, test, build)
+- Works with any project type (Node, Python, Rust, etc.)
+- Reports results table with pass/fail status
+- Blocks PR closure on failures
+
+Example: `/project:verify-pr 042`
+
+#### `/project:close-pr [number]`
+
+Merges GitHub PR and completes documentation:
+- Merges via `gh pr merge --squash --delete-branch`
+- Checks out main and pulls
+- Completes IMPLEMENTATION.md with learnings
+- Moves PR to "Recently Merged" in ACTIVE_PRS.md
+- Checks for architectural decisions, prompts ADR creation
+- Commits documentation updates
 
 Example: `/project:close-pr 042`
 
-### `/project:decision [slug]`
+#### `/project:execute-pr [number]`
 
-Creates a new Architecture Decision Record:
+**Master orchestrator** - runs the complete PR lifecycle:
+1. Initialization (start-pr if needed)
+2. Implementation (implement-pr)
+3. Verification (verify-pr)
+4. Push & Create GitHub PR
+5. User approval gate
+6. Merge & Close (close-pr with ADR checks)
+7. Context update (context-update)
+8. Final report
+
+Supports `--skip-start`, `--skip-verify`, `--auto-merge`, `--dry-run` flags.
+
+Example: `/project:execute-pr 042`
+
+#### `/project:pr-status [number]`
+
+Quick view of PR progress:
+- Detects active PR or accepts number
+- Shows task completion, phase, verification status
+- Suggests next action and relevant commands
+
+Example: `/project:pr-status 042`
+
+### Documentation Commands
+
+#### `/project:decision [slug]`
+
+Creates Architecture Decision Record:
 - Auto-numbers based on existing ADRs
-- Creates from standard ADR template
-- Updates the decision index
+- Creates from template with PR reference and "Related" section
+- Updates `_INDEX.md` and `RECENT_DECISIONS.md`
+- Prompts to fill Context/Decision sections
 
 Example: `/project:decision api-versioning-strategy`
+
+#### `/project:context-update`
+
+Refreshes living context files:
+- Gathers data from git log, branches, open PRs
+- Updates ACTIVE_PRS.md with current PR state
+- Updates RECENT_DECISIONS.md with recent ADRs
+- Flags staleness and documentation gaps
+
+#### `/project:context-status`
+
+Documentation health report:
+- Checks `.context/` file freshness (flags >7 days stale)
+- Verifies PR paper trails exist for open PRs
+- Checks decision index consistency
+- Presents structured health report with recommendations
 
 ## Advanced Workflow Commands (`/hl:*`)
 

@@ -1,6 +1,6 @@
 # Context Status
 
-Get a quick overview of current project context.
+Report on documentation health and identify gaps.
 
 ## When to Use
 
@@ -8,39 +8,53 @@ Run this to understand:
 - What PRs are currently in progress
 - Recent architectural decisions
 - Current project state
+- Documentation health
 
 Example usage: `/project:context-status`
 
 ## Instructions
 
-1. **Read current context files**:
-   - `docs/.context/ACTIVE_PRS.md`
-   - `docs/.context/RECENT_DECISIONS.md`
+1. **Check `.context/` freshness**:
+   - Read each file in `docs/.context/`
+   - Check "Last updated" dates if present
+   - Flag any file not updated in the last 7 days
 
-2. **Summarize open PRs**:
-   - List each open PR with its status
-   - Note which ones have incomplete documentation
+2. **Check PR paper trails**:
+   - Run `gh pr list --state open` or check git branches
+   - For each open PR, verify `docs/prs/*-PR-{num}-*/` exists
+   - List any PRs missing paper trails
 
-3. **Summarize recent decisions**:
-   - List last 5 decisions
-   - Note any pending or under-review decisions
+3. **Check decisions**:
+   - Read `docs/decisions/_INDEX.md`
+   - Verify all listed decisions have corresponding files
+   - Check for any "Proposed" decisions that need resolution
 
-4. **Check for issues**:
-   - Stale PRs (open for >2 weeks)
+4. **Check for staleness**:
+   - PRs open for >2 weeks
    - Missing paper trails
    - Decisions needing follow-up
 
-5. **Present summary** in a clear format:
+5. **Present summary** in structured format:
 
 ```
-## Current Context
+## Documentation Health Report
 
-### Open PRs ({count})
-- PR #{num}: {title} - {status}
+### .context/ Files
+- ACTIVE_PRS.md: {status} (updated {X days ago})
+- RECENT_DECISIONS.md: {status} (updated {X days ago})
 
-### Recent Decisions ({count})
-- ADR-{num}: {title} - {status}
+### PR Paper Trails
+- {X} open PRs
+- {Y} with paper trails
+- {Z} missing paper trails:
+  - PR #{num}: {title}
 
-### Action Items
-- {Any issues found}
+### Decisions
+- {X} total decisions
+- {Y} accepted
+- {Z} proposed (pending)
+
+### Recommendations
+1. {Action item}
+2. {Action item}
 ```

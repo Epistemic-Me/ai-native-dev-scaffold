@@ -1,32 +1,39 @@
 # Start PR
 
-Create paper trail folder for a new PR.
+Create a feature branch and paper trail folder for a new PR.
 
 ## Arguments
 
 The user should provide:
-- PR number (e.g., "142")
-- Short slug describing the PR (e.g., "belief-extraction")
+- PR number (e.g., "036")
+- Short slug describing the PR (e.g., "feature-name")
 
-Example usage: `/project:start-pr 142 belief-extraction`
+Example usage: `/project:start-pr 036 feature-name`
 
 ## Instructions
 
 1. **Get today's date** in YYYY-MM-DD format
 
-2. **Create PR folder**:
+2. **Create feature branch**:
+   ```bash
+   git checkout -b feature/pr-{num}-{slug}
+   ```
+   Example: `git checkout -b feature/pr-036-feature-name`
+
+3. **Create PR folder**:
    ```
    docs/prs/{date}-PR-{num}-{slug}/
    ```
-   Example: `docs/prs/2024-12-14-PR-142-belief-extraction/`
+   Example: `docs/prs/2025-01-15-PR-036-feature-name/`
 
-3. **Create RESEARCH.md** with this template:
+4. **Create RESEARCH.md** with this template:
 
 ```markdown
 # PR #{num}: {slug} - Research
 
 **Created**: {date}
 **Author**: @{get from git config}
+**Branch**: `feature/pr-{num}-{slug}`
 
 ## Problem Statement
 
@@ -41,7 +48,7 @@ Example usage: `/project:start-pr 142 belief-extraction`
 - {To be filled: Related PRs, decisions}
 
 ### User/Business Context
-- {To be filled: Relevant JTBD, user feedback}
+- {To be filled: Relevant user feedback, business requirements}
 
 ## Options Considered
 
@@ -66,13 +73,14 @@ Example usage: `/project:start-pr 142 belief-extraction`
 - [ ] {Questions to answer before planning}
 ```
 
-4. **Create PLAN.md** with this template:
+5. **Create PLAN.md** with this template:
 
 ```markdown
 # PR #{num}: {slug} - Plan
 
 **Created**: {date}
 **Based on**: [RESEARCH.md](./RESEARCH.md)
+**Branch**: `feature/pr-{num}-{slug}`
 
 ## Chosen Approach
 
@@ -119,16 +127,20 @@ Example usage: `/project:start-pr 142 belief-extraction`
 - [ ] Code complete
 - [ ] Tests passing
 - [ ] Documentation updated
-- [ ] PR reviewed
+- [ ] GitHub PR created
+- [ ] PR reviewed and approved
+- [ ] PR merged
 ```
 
-5. **Create IMPLEMENTATION.md** with this template:
+6. **Create IMPLEMENTATION.md** with this template:
 
 ```markdown
 # PR #{num}: {slug} - Implementation
 
 **Status**: In Progress
 **Based on**: [PLAN.md](./PLAN.md)
+**Branch**: `feature/pr-{num}-{slug}`
+**GitHub PR**: {to be filled when PR created}
 
 ## Summary
 
@@ -168,8 +180,26 @@ Example usage: `/project:start-pr 142 belief-extraction`
 *PR Merged: {to be filled}*
 ```
 
-6. **Update ACTIVE_PRS.md**:
+7. **Update ACTIVE_PRS.md**:
    - Add entry for this PR in the "Open PRs" section
-   - Include link to paper trail folder
+   - Include link to paper trail folder and branch name
 
-7. **Report to user** what was created
+8. **Stage and commit the paper trail**:
+   ```bash
+   git add docs/prs/{date}-PR-{num}-{slug}/
+   git commit -m "docs: start PR #{num} - {slug}"
+   ```
+
+9. **Report to user** what was created:
+   ```
+   PR #{num} Started
+
+   Branch: feature/pr-{num}-{slug}
+   Paper Trail: docs/prs/{date}-PR-{num}-{slug}/
+
+   Next steps:
+   1. Fill in RESEARCH.md with problem statement
+   2. Complete PLAN.md with implementation details
+   3. Run /project:implement-pr {num} to implement
+   4. Or run /project:execute-pr {num} for full lifecycle
+   ```

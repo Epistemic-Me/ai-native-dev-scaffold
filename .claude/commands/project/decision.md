@@ -5,45 +5,46 @@ Create a new Architecture Decision Record (ADR).
 ## Arguments
 
 The user should provide:
-- Decision slug (e.g., "api-versioning-strategy")
+- Slug for the decision (e.g., "api-versioning-strategy")
 
 Example usage: `/project:decision api-versioning-strategy`
 
 ## Instructions
 
-1. **Get the next ADR number**:
+1. **Get today's date** in YYYY-MM-DD format
+
+2. **Determine ADR number**:
    - Read `docs/decisions/_INDEX.md`
-   - Find the highest ADR number
-   - Increment by 1
+   - Find the highest existing ADR number
+   - New ADR number = highest + 1
 
-2. **Get today's date** in YYYY-MM-DD format
-
-3. **Create the ADR file** at `docs/decisions/ADR-{num}-{slug}.md`:
+3. **Create ADR file** at `docs/decisions/{date}-{slug}.md`:
 
 ```markdown
-# ADR-{num}: {Title from slug}
+# ADR-{number}: {Title from slug, humanized}
 
 **Date**: {date}
 **Status**: Proposed
+**PR**: #{number if applicable, or "N/A"}
 
 ## Context
 
-{What is the issue that we're seeing that motivates this decision?}
+{To be filled: What issue motivates this decision?}
 
 ## Decision
 
-{What is the change that we're proposing and/or doing?}
+{To be filled: What are we doing?}
 
 ## Consequences
 
 ### Positive
-- {Good outcomes}
+-
 
 ### Negative
-- {Trade-offs and costs}
+-
 
 ### Neutral
-- {Other notable effects}
+-
 
 ## Alternatives Considered
 
@@ -59,17 +60,25 @@ Example usage: `/project:decision api-versioning-strategy`
 - **Cons**:
 - **Why not chosen**:
 
-## References
+## Related
 
-- {Related PRs, docs, external resources}
+- PR: `docs/prs/{date}-PR-{num}-{slug}/` (if applicable)
+- References: {external resources, docs, related ADRs}
 ```
 
 4. **Update `docs/decisions/_INDEX.md`**:
-   - Add new entry to the decision table
-   - Include date, title, status, and link
+   - Add row to the table:
+     ```
+     | {number} | {date} | {title} | Proposed | [Link](/{date}-{slug}.md) |
+     ```
+   - Add to "Proposed" section under "By Status" (if section exists)
 
 5. **Update `docs/.context/RECENT_DECISIONS.md`**:
-   - Add entry to recent decisions list
-   - Keep only last 10 decisions in this file
+   - Add to top of table (shift others down, keep only 10)
 
-6. **Report to user** what was created
+6. **Prompt user** to fill in the Context and Decision sections
+
+7. **After user fills in**, remind them to:
+   - Update Status to "Accepted" when finalized
+   - Update _INDEX.md status accordingly
+   - Link from relevant PR paper trail if applicable
