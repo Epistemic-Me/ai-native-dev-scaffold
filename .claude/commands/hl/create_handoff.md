@@ -16,19 +16,30 @@ Create your file under `docs/handoffs/YYYY-MM-DD_HH-MM-SS_description.md`, where
 - description is a brief kebab-case description
 
 Examples:
-- `2025-01-08_13-55-22_user-authentication-flow.md`
-- `2025-01-08_14-30-00_api-refactoring.md`
+- `docs/handoffs/2025-01-08_13-55-22_user-authentication-flow.md`
+- `docs/handoffs/2025-01-08_14-30-00_api-refactoring.md`
+
+Gather metadata:
+- Current git branch: `git branch --show-current`
+- Current commit: `git rev-parse --short HEAD`
+- Repository name: basename of the git root directory
 
 ### 2. Handoff Writing
 
 Use the following template structure:
 
 ```markdown
-# Handoff: {very concise description}
+---
+date: [Current date and time with timezone in ISO format]
+git_commit: [Current commit hash]
+branch: [Current branch name]
+repository: [Repository name]
+topic: "[Feature/Task Name]"
+tags: [implementation, strategy, relevant-component-names]
+status: complete
+---
 
-**Date**: {current date and time}
-**Branch**: {current git branch}
-**Commit**: {current commit hash}
+# Handoff: {very concise description}
 
 ## Task(s)
 
@@ -65,7 +76,7 @@ If working on an implementation plan, note which phase you are on. Reference the
 
 ## Action Items & Next Steps
 
-{A list of action items and next steps for the next agent to accomplish}
+{A list of action items and next steps for the next agent to accomplish based on your tasks and their statuses}
 
 ## Other Notes
 
@@ -89,5 +100,6 @@ Handoff created! You can resume from this handoff in a new session with:
 
 - **More information, not less**: This template defines the minimum. Always include more if necessary.
 - **Be thorough and precise**: Include both top-level objectives and lower-level details.
-- **Avoid excessive code snippets**: While brief snippets are fine, prefer using `path/to/file.ext:line` references that an agent can follow later.
+- **Avoid excessive code snippets**: While brief snippets are fine for describing key changes, prefer using `path/to/file.ext:line` references that an agent can follow later, e.g. `src/components/Auth.tsx:12-24`.
 - **Keep it scannable**: Use clear headers and bullet points.
+- **Include YAML frontmatter**: This enables future tooling to parse and index handoffs.

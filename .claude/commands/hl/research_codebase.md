@@ -1,5 +1,6 @@
 ---
-description: Document codebase as-is through comprehensive research
+description: Document codebase as-is with comprehensive parallel research
+model: opus
 ---
 
 # Research Codebase
@@ -40,12 +41,25 @@ Then wait for the user's research query.
 
 3. **Spawn parallel sub-agent tasks for comprehensive research:**
    - Create multiple Task agents to research different aspects concurrently
-   - Use specialized agent types:
-     - **Explore agent**: To find where files and components live
-     - **codebase-analyzer agent**: To understand how specific code works
-     - **codebase-pattern-finder agent**: To find examples of existing patterns
+   - Use specialized agents:
+
+   **For codebase research:**
+   - Use the **codebase-locator** agent to find WHERE files and components live
+   - Use the **codebase-analyzer** agent to understand HOW specific code works (without critiquing it)
+   - Use the **codebase-pattern-finder** agent to find examples of existing patterns (without evaluating them)
 
    **IMPORTANT**: All agents are documentarians, not critics. They will describe what exists without suggesting improvements.
+
+   **For web research (only if user explicitly asks):**
+   - Use the **web-search-researcher** agent for external documentation and resources
+   - IF you use web-research agents, instruct them to return LINKS with their findings
+
+   The key is to use these agents intelligently:
+   - Start with locator agents to find what exists
+   - Then use analyzer agents on the most promising findings to document how they work
+   - Run multiple agents in parallel when they're searching for different things
+   - Each agent knows its job - just tell it what you're looking for
+   - Remind agents they are documenting, not evaluating or improving
 
 4. **Wait for all sub-agents to complete and synthesize findings:**
    - IMPORTANT: Wait for ALL sub-agent tasks to complete before proceeding
@@ -56,26 +70,28 @@ Then wait for the user's research query.
    - Answer the user's specific questions with concrete evidence
 
 5. **Generate research document:**
-   Structure the document as follows:
+   - Write to `docs/research/YYYY-MM-DD-description.md`
+   - Structure the document as follows:
 
    ```markdown
    # Research: [User's Question/Topic]
 
    **Date**: [Current date]
    **Branch**: [Current branch name]
+   **Commit**: [Current commit hash]
 
    ## Research Question
    [Original user query]
 
    ## Summary
-   [High-level documentation of what was found, answering the user's question]
+   [High-level documentation of what was found, answering the user's question by describing what exists]
 
    ## Detailed Findings
 
    ### [Component/Area 1]
    - Description of what exists (file.ext:line)
    - How it connects to other components
-   - Current implementation details
+   - Current implementation details (without evaluation)
 
    ### [Component/Area 2]
    ...
@@ -85,10 +101,10 @@ Then wait for the user's research query.
    - `another/file.ts:45-67` - Description of the code block
 
    ## Architecture Documentation
-   [Current patterns, conventions, and design implementations found]
+   [Current patterns, conventions, and design implementations found in the codebase]
 
    ## Related Documentation
-   [Links to other relevant docs or ADRs]
+   [Links to other relevant docs, ADRs, or research documents]
 
    ## Open Questions
    [Any areas that need further investigation]
@@ -100,19 +116,25 @@ Then wait for the user's research query.
    - Ask if they have follow-up questions or need clarification
 
 7. **Handle follow-up questions:**
-   - If the user has follow-up questions, append to the research
+   - If the user has follow-up questions, append to the same research document
+   - Add a new section: `## Follow-up Research [timestamp]`
    - Spawn new sub-agents as needed for additional investigation
-   - Continue updating the research
+   - Continue updating the document
 
 ## Important notes:
-- Always use parallel Task agents to maximize efficiency
-- Focus on finding concrete file paths and line numbers
+- Always use parallel Task agents to maximize efficiency and minimize context usage
+- Always run fresh codebase research - never rely solely on existing documents
+- Focus on finding concrete file paths and line numbers for developer reference
 - Research documents should be self-contained with all necessary context
-- Each sub-agent prompt should be specific and focused on read-only operations
+- Each sub-agent prompt should be specific and focused on read-only documentation operations
 - Document cross-component connections and how systems interact
 - Keep the main agent focused on synthesis, not deep file reading
 - Have sub-agents document examples and usage patterns as they exist
 - **CRITICAL**: You and all sub-agents are documentarians, not evaluators
 - **REMEMBER**: Document what IS, not what SHOULD BE
 - **NO RECOMMENDATIONS**: Only describe the current state of the codebase
-- **File reading**: Always read mentioned files FULLY before spawning sub-tasks
+- **File reading**: Always read mentioned files FULLY (no limit/offset) before spawning sub-tasks
+- **Critical ordering**: Follow the numbered steps exactly
+  - ALWAYS read mentioned files first before spawning sub-tasks (step 1)
+  - ALWAYS wait for all sub-agents to complete before synthesizing (step 4)
+  - NEVER write the research document with placeholder values

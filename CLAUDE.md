@@ -45,7 +45,9 @@ This scaffold enables AI-native software development through:
 your-project/
 ├── .claude/
 │   └── commands/
-│       └── project/           # PR and decision commands
+│       ├── hl/                # Advanced workflow commands
+│       ├── project/           # PR and decision commands
+│       └── shared/            # Shared utilities (branch safety)
 ├── docs/
 │   ├── .context/              # Living project context
 │   │   ├── ACTIVE_PRS.md      # Currently open PRs
@@ -53,8 +55,11 @@ your-project/
 │   ├── decisions/             # Architecture Decision Records
 │   │   ├── _INDEX.md          # Decision catalog
 │   │   └── _TEMPLATE.md       # ADR template
-│   └── prs/                   # PR paper trails
-│       └── _TEMPLATE/         # Template PR folder
+│   ├── handoffs/              # Session handoff documents
+│   ├── plans/                 # Implementation plans
+│   ├── prs/                   # PR paper trails
+│   │   └── _TEMPLATE/         # Template PR folder
+│   └── research/              # Codebase research documents
 ├── CLAUDE.md                  # This file
 └── ... your code ...
 ```
@@ -63,67 +68,73 @@ your-project/
 
 ### Project Commands (`/project:*`)
 
-#### `/project:start-pr {number} {slug}`
+#### PR Lifecycle
+- `/project:start-pr {num} {slug}` - Create feature branch + paper trail folder (RESEARCH.md, PLAN.md, IMPLEMENTATION.md)
+- `/project:implement-pr {num}` - Execute implementation from PLAN.md with structured progress tracking
+- `/project:verify-pr {num}` - Run all available verification checks (lint, typecheck, test, build)
+- `/project:close-pr {num}` - Merge GitHub PR, complete documentation, check for ADRs
+- `/project:execute-pr {num}` - **Master orchestrator**: runs full lifecycle (start → implement → verify → push → GH PR → approval → merge → close → context update)
+- `/project:pr-status [num]` - Quick view of PR progress, phase, and next action
 
-Creates a new PR paper trail folder with:
-- `RESEARCH.md` - Problem exploration and options analysis
-- `PLAN.md` - Implementation strategy and scope
-- `IMPLEMENTATION.md` - What was actually built
-
-Example: `/project:start-pr 042 user-authentication`
-
-#### `/project:close-pr {number}`
-
-Completes PR documentation:
-- Ensures all sections are filled
-- Moves PR from active to merged
-- Prompts for ADR creation if decisions were made
-
-Example: `/project:close-pr 042`
-
-#### `/project:decision {slug}`
-
-Creates a new Architecture Decision Record:
-- Auto-numbers based on existing ADRs
-- Updates the decision index
-
-Example: `/project:decision api-versioning-strategy`
+#### Documentation & Context
+- `/project:decision {slug}` - Create Architecture Decision Record with auto-numbering
+- `/project:context-update` - Refresh ACTIVE_PRS.md and RECENT_DECISIONS.md
+- `/project:context-status` - Documentation health report with staleness checks
 
 ### Advanced Workflow Commands (`/hl:*`)
 
-#### Planning
-- `/hl:create_plan` - Create implementation plans through interactive research
+#### Planning & Implementation
+- `/hl:create_plan` - Create implementation plans through interactive research (model: opus)
+- `/hl:create_plan_nt` - Lightweight plan creation, no docs/ directory required (model: opus)
 - `/hl:implement_plan` - Execute plans phase by phase with verification
-- `/hl:iterate_plan` - Update existing plans based on feedback
+- `/hl:iterate_plan` - Update existing plans based on feedback (model: opus)
+- `/hl:iterate_plan_nt` - Lightweight plan iteration, no docs/ directory required (model: opus)
 - `/hl:validate_plan` - Verify implementation matches plan
 - `/hl:execute_pr` - Implement from PR paper trail
+- `/hl:oneshot` - Research ticket and launch planning session
+- `/hl:oneshot_plan` - Research, plan, and implement in one session
 
-#### Git
-- `/hl:commit` - Create git commits with user approval
-- `/hl:describe_pr` - Generate comprehensive PR descriptions
+#### Git & PR
+- `/hl:commit` - Create git commits with user approval (enforces branch safety)
+- `/hl:ci_commit` - Non-interactive commit for CI/automated workflows
+- `/hl:describe_pr` - Generate PR descriptions with paper trail integration
+- `/hl:ci_describe_pr` - Non-interactive PR description for CI workflows
+- `/hl:describe_pr_nt` - Lightweight PR description, no docs/ required
 
 #### Research & Debug
-- `/hl:research_codebase` - Document codebase through research
+- `/hl:research_codebase` - Document codebase with research doc generation (model: opus)
+- `/hl:research_codebase_generic` - Comprehensive research with parallel sub-agents (model: opus)
+- `/hl:research_codebase_nt` - Lightweight research, findings presented inline (model: opus)
 - `/hl:debug` - Debug issues by investigating logs and code
+
+#### Review
+- `/hl:local_review` - Review a colleague's PR locally with analysis
 
 #### Session Continuity
 - `/hl:create_handoff` - Create handoff for another session
 - `/hl:resume_handoff` - Resume from handoff document
 
+#### Special Modes
+- `/hl:founder_mode` - Rapid experimental development with bias toward action
+
 ## Workflow
 
 ### Starting Work on a Feature
 
-1. **Create feature branch FIRST**: `git checkout -b feature/pr-{num}-{slug}`
-2. **Create PR paper trail**: `/project:start-pr {num} {slug}`
-3. **Create draft PR**: `gh pr create --draft --title "WIP: {description}"`
-4. **Research phase**: Fill in RESEARCH.md with problem statement and options
-5. **Planning phase**: Fill in PLAN.md with chosen approach and scope
-6. **Implementation**: Write code on feature branch, update IMPLEMENTATION.md
-7. **Commit regularly**: Use `/hl:commit` (enforces branch safety)
-8. **Push to remote**: `git push -u origin feature/pr-{num}-{slug}`
-9. **Request review**: Mark PR ready when done
-10. **Close PR**: `/project:close-pr {num}` after merge
+**Quick path** (automated full lifecycle):
+1. `/project:execute-pr {num} {slug}` - Handles everything from branch creation to merge
+
+**Manual path** (step by step):
+1. **Start PR**: `/project:start-pr {num} {slug}` (creates branch + paper trail)
+2. **Research phase**: Fill in RESEARCH.md with problem statement and options
+3. **Planning phase**: Fill in PLAN.md with chosen approach and scope
+4. **Implement**: `/project:implement-pr {num}` (executes tasks from PLAN.md)
+5. **Verify**: `/project:verify-pr {num}` (runs lint, tests, build)
+6. **Commit & Push**: Use `/hl:commit`, then `git push -u origin feature/pr-{num}-{slug}`
+7. **Create GitHub PR**: `gh pr create --title "PR #{num}: {description}"`
+8. **Request review**: Mark PR ready when done
+9. **Close PR**: `/project:close-pr {num}` after merge (handles ADRs, context update)
+10. **Check status anytime**: `/project:pr-status {num}`
 
 ### Making Architectural Decisions
 
