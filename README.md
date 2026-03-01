@@ -154,7 +154,7 @@ Write PLAN.md with the chosen approach, scope, technical design, and implementat
 
 ```
 /project:create-plan
-> Implement JWT authentication based on docs/prs/2025-02-07-PR-042-user-authentication/RESEARCH.md
+> Implement JWT authentication based on docs/prs/planning/2025-02-07-PR-042-user-authentication/RESEARCH.md
 ```
 
 This researches the codebase, presents design options, and writes a phased plan with success criteria to PLAN.md.
@@ -162,7 +162,7 @@ This researches the codebase, presents design options, and writes a phased plan 
 Need to revise the plan after feedback?
 
 ```
-/project:iterate-plan docs/prs/2025-02-07-PR-042-user-authentication/PLAN.md
+/project:iterate-plan docs/prs/planning/2025-02-07-PR-042-user-authentication/PLAN.md
 > Add rate limiting to the login endpoint and split into smaller phases
 ```
 
@@ -243,6 +243,7 @@ This:
 - Merges the PR via `gh pr merge --squash --delete-branch`
 - Checks out main and pulls
 - Completes IMPLEMENTATION.md (summary, learnings)
+- Archives the PR folder from `implementing/` to `_archive/`
 - Moves the PR from "Open" to "Recently Merged" in ACTIVE_PRS.md
 - Checks for architectural decisions and prompts ADR creation if needed
 - Commits documentation updates to main
