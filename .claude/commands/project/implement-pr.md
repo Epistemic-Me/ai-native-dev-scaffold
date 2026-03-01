@@ -11,6 +11,7 @@ Example usage: `/project:implement-pr 036`
 ## Instructions
 
 1. **Find the PR folder** in `docs/prs/` matching the PR number
+   - Search in `docs/prs/implementing/`, `docs/prs/planning/`, and `docs/prs/` root for legacy folders
    - Handle formats: `YYYY-MM-DD-PR-{num}-*`
 
 2. **Ensure on correct branch**:

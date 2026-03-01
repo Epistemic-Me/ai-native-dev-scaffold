@@ -12,6 +12,7 @@ Example usage: `/project:close-pr 036`
 ## Instructions
 
 1. **Find the PR folder** in `docs/prs/` matching the PR number
+   - Search in `docs/prs/implementing/`, `docs/prs/planning/`, and `docs/prs/` root for legacy folders
 
 2. **Check GitHub PR status**:
    ```bash
@@ -57,14 +58,21 @@ Example usage: `/project:close-pr 036`
 
 9. **Update RECENT_DECISIONS.md** if decisions were captured
 
-10. **Commit documentation updates**:
+10. **Archive the PR folder**:
+    - Move the PR folder to `docs/prs/_archive/`:
+      ```bash
+      git mv docs/prs/implementing/{date}-PR-{num}-{slug} docs/prs/_archive/{date}-PR-{num}-{slug}
+      ```
+    - If the folder was in `docs/prs/planning/` or root, move from there instead
+
+11. **Commit documentation updates**:
     ```bash
     git add docs/prs/ docs/.context/
     git commit -m "docs: close PR #{num} - {title}"
     git push origin main
     ```
 
-11. **Report summary**:
+12. **Report summary**:
     ```
     PR #{num} CLOSED
 
@@ -73,6 +81,6 @@ Example usage: `/project:close-pr 036`
     Merged: {date}
 
     Documentation Updated:
-    - IMPLEMENTATION.md
+    - IMPLEMENTATION.md (archived to docs/prs/_archive/)
     - ACTIVE_PRS.md
     ```

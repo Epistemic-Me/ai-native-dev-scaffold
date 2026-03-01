@@ -68,17 +68,23 @@ Example usage:
 ### Phase 1: Initialization
 
 1. **Find PR folder**:
-   - Search `docs/prs/` for folder matching PR number
+   - Search `docs/prs/planning/`, `docs/prs/implementing/`, and `docs/prs/` root for folder matching PR number
    - Handle formats: `*-PR-{num}-*`
 
 2. **Check PR state**:
    - If no folder exists AND no `--skip-start`:
      - Ask user for PR slug
-     - Run `/project:start-pr {num} {slug}` (creates branch + folder)
-   - If folder exists:
+     - Run `/project:start-pr {num} {slug}` (creates branch + folder in `planning/`)
+   - If folder exists in `planning/`:
+     - Move it to `implementing/`: `git mv docs/prs/planning/{folder} docs/prs/implementing/{folder}`
+     - Commit the move: `git commit -m "docs: move PR #{num} to implementing"`
      - Extract branch name from RESEARCH.md or PLAN.md
      - Checkout the feature branch: `git checkout feature/pr-{num}-{slug}`
-     - Announce "Found existing PR-{num}: {title}"
+     - Announce "Found existing PR-{num}: {title} — moved to implementing"
+   - If folder exists in `implementing/` (resuming):
+     - Extract branch name from RESEARCH.md or PLAN.md
+     - Checkout the feature branch: `git checkout feature/pr-{num}-{slug}`
+     - Announce "Resuming PR-{num}: {title}"
 
 3. **Verify PLAN.md exists and is complete**:
    - Check for Tasks/Implementation Order section

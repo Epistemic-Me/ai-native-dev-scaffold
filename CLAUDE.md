@@ -45,17 +45,17 @@ It pauses at the approval gate for human review before merging. If interrupted, 
 ```
 /project:start-pr {num} {slug}
 ```
-Creates `feature/pr-{num}-{slug}` branch and `docs/prs/{date}-PR-{num}-{slug}/` with RESEARCH.md, PLAN.md, IMPLEMENTATION.md.
+Creates `feature/pr-{num}-{slug}` branch and `docs/prs/planning/{date}-PR-{num}-{slug}/` with RESEARCH.md, PLAN.md, IMPLEMENTATION.md.
 
 **2. Research** — understand the problem before coding:
 - Fill in RESEARCH.md with problem statement, options considered, recommendation
-- Use `/hl:research_codebase_nt` to explore the codebase
+- Use `/project:research-codebase-nt` to explore the codebase
 - Record architectural decisions with `/project:decision {slug}`
 
 **3. Plan** — define the implementation approach:
 - Fill in PLAN.md with scope, technical design, implementation order
-- Or generate one: `/hl:create_plan`
-- Revise after feedback: `/hl:iterate_plan {path-to-plan} {feedback}`
+- Or generate one: `/project:create-plan`
+- Revise after feedback: `/project:iterate-plan {path-to-plan} {feedback}`
 
 **4. Implement** — execute the plan with progress tracking:
 ```
@@ -71,18 +71,18 @@ Auto-detects lint, typecheck, test, build and reports pass/fail. Must pass befor
 
 **6. Commit and push**:
 ```
-/hl:commit
+/project:commit
 git push -u origin feature/pr-{num}-{slug}
 ```
 
 **7. Create/update GitHub PR**:
 ```
-/hl:describe_pr {num}
+/project:describe-pr {num}
 ```
 Generates PR description from paper trail, analyzes diff, creates/updates PR on GitHub.
 
 **8. Review** — get human approval:
-- Have teammate review, or use `/hl:local_review {num}` for local analysis
+- Have teammate review, or use `/project:local-review {num}` for local analysis
 - Never merge without human approval
 
 **9. Merge and close**:
@@ -101,11 +101,11 @@ Refreshes all `.context/` files. Check health anytime with `/project:context-sta
 
 | Situation | Use this |
 |-----------|----------|
-| Medium task (hours) | `/hl:oneshot_plan` — research, plan, implement in one session |
-| Quick fix | `/hl:founder_mode` — bias toward action, still uses PRs |
-| Need plan only | `/hl:create_plan` then `/project:implement-pr` |
-| Continuing work | `/hl:resume_handoff` |
-| Debugging | `/hl:debug` |
+| Medium task (hours) | `/project:oneshot-plan` — research, plan, implement in one session |
+| Quick fix | `/project:founder-mode` — bias toward action, still uses PRs |
+| Need plan only | `/project:create-plan` then `/project:implement-pr` |
+| Continuing work | `/project:resume-handoff` |
+| Debugging | `/project:debug` |
 
 ---
 
@@ -115,8 +115,7 @@ Refreshes all `.context/` files. Check health anytime with `/project:context-sta
 your-project/
 ├── .claude/
 │   └── commands/
-│       ├── project/           # PR lifecycle and documentation (9 commands)
-│       ├── hl/                # Advanced workflows (22 commands)
+│       ├── project/           # All workflow commands (30+ commands)
 │       └── shared/            # Branch safety enforcement
 ├── docs/
 │   ├── .context/              # Living project context
@@ -127,7 +126,10 @@ your-project/
 │   │   └── _TEMPLATE.md       # ADR template
 │   ├── handoffs/              # Session handoff documents
 │   ├── plans/                 # Implementation plans
-│   ├── prs/                   # PR paper trails
+│   ├── prs/                   # PR paper trails (lifecycle directories)
+│   │   ├── planning/          # PRs in research/planning phase
+│   │   ├── implementing/      # PRs actively being implemented
+│   │   ├── _archive/          # Merged/closed PRs
 │   │   └── _TEMPLATE/         # RESEARCH.md, PLAN.md, IMPLEMENTATION.md
 │   └── research/              # Codebase research documents
 ├── CLAUDE.md                  # This file
@@ -155,53 +157,59 @@ your-project/
 | `/project:context-update` | Refresh ACTIVE_PRS.md and RECENT_DECISIONS.md |
 | `/project:context-status` | Documentation health report with staleness checks |
 
-### Planning (`/hl:*`)
+### Planning (`/project:*`)
 
 | Command | Purpose |
 |---------|---------|
-| `/hl:create_plan` | Interactive plan creation with codebase research (opus) |
-| `/hl:create_plan_nt` | Lightweight plan, no docs/ required (opus) |
-| `/hl:implement_plan` | Execute plan phase by phase with verification |
-| `/hl:iterate_plan` | Update existing plan based on feedback (opus) |
-| `/hl:iterate_plan_nt` | Lightweight plan iteration (opus) |
-| `/hl:validate_plan` | Verify implementation matches plan |
-| `/hl:execute_pr` | Implement from PR paper trail (RESEARCH + PLAN) |
-| `/hl:oneshot` | Research + plan in one flow |
-| `/hl:oneshot_plan` | Research + plan + implement in one session |
+| `/project:create-plan` | Interactive plan creation with codebase research (opus) |
+| `/project:create-plan-nt` | Lightweight plan, no docs/ required (opus) |
+| `/project:implement-plan` | Execute plan phase by phase with verification |
+| `/project:iterate-plan` | Update existing plan based on feedback (opus) |
+| `/project:iterate-plan-nt` | Lightweight plan iteration (opus) |
+| `/project:validate-plan` | Verify implementation matches plan |
+| `/project:oneshot` | Research + plan in one flow |
+| `/project:oneshot-plan` | Research + plan + implement in one session |
 
-### Git & PR (`/hl:*`)
-
-| Command | Purpose |
-|---------|---------|
-| `/hl:commit` | Commits with branch safety enforcement |
-| `/hl:ci_commit` | Non-interactive commit for CI workflows |
-| `/hl:describe_pr` | Generate PR description from paper trail |
-| `/hl:ci_describe_pr` | Non-interactive PR description for CI |
-| `/hl:describe_pr_nt` | Lightweight PR description |
-
-### Research & Debug (`/hl:*`)
+### Git & PR (`/project:*`)
 
 | Command | Purpose |
 |---------|---------|
-| `/hl:research_codebase` | Codebase research + doc generation (opus) |
-| `/hl:research_codebase_generic` | Deep research with parallel sub-agents (opus) |
-| `/hl:research_codebase_nt` | Lightweight inline research (opus) |
-| `/hl:debug` | Investigate logs and code (read-only) |
+| `/project:commit` | Commits with branch safety enforcement |
+| `/project:ci-commit` | Non-interactive commit for CI workflows |
+| `/project:describe-pr` | Generate PR description from paper trail |
+| `/project:ci-describe-pr` | Non-interactive PR description for CI |
+| `/project:describe-pr-nt` | Lightweight PR description |
 
-### Review, Handoffs, and Modes (`/hl:*`)
+### Research & Debug (`/project:*`)
 
 | Command | Purpose |
 |---------|---------|
-| `/hl:local_review` | Review a colleague's PR locally |
-| `/hl:create_handoff` | Create session handoff document |
-| `/hl:resume_handoff` | Resume from handoff document |
-| `/hl:founder_mode` | Rapid development with bias toward action |
+| `/project:research-codebase` | Codebase research + doc generation (opus) |
+| `/project:research-codebase-generic` | Deep research with parallel sub-agents (opus) |
+| `/project:research-codebase-nt` | Lightweight inline research (opus) |
+| `/project:debug` | Investigate logs and code (read-only) |
+
+### Review, Handoffs, and Modes (`/project:*`)
+
+| Command | Purpose |
+|---------|---------|
+| `/project:local-review` | Review a colleague's PR locally |
+| `/project:create-handoff` | Create session handoff document |
+| `/project:resume-handoff` | Resume from handoff document |
+| `/project:founder-mode` | Rapid development with bias toward action |
 
 ## Documentation Patterns
 
 ### PR Paper Trail
 
-Each PR gets `docs/prs/{date}-PR-{num}-{slug}/` with:
+Each PR gets a folder with RESEARCH.md, PLAN.md, and IMPLEMENTATION.md that moves through lifecycle directories:
+
+```
+docs/prs/planning/{date}-PR-{num}-{slug}/     # Created by /project:start-pr
+docs/prs/implementing/{date}-PR-{num}-{slug}/  # Moved by /project:execute-pr
+docs/prs/_archive/{date}-PR-{num}-{slug}/      # Moved by /project:close-pr
+```
+
 - **RESEARCH.md** — The "why": problem statement, options, recommendation
 - **PLAN.md** — The "how": scope, design, implementation order, definition of done
 - **IMPLEMENTATION.md** — The "what": changes made, deviations, learnings

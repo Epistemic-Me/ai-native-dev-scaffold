@@ -52,7 +52,7 @@ I'm ready to research the codebase. What would you like to understand?
 
 6. **Handle follow-ups** by spawning new agents as needed
 
-## Key Difference from /hl:research_codebase
+## Key Difference from /project:research-codebase
 - Does NOT generate a research document file
 - Does NOT require docs/ directory
 - Presents all findings inline in the conversation
