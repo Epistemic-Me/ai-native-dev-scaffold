@@ -8,39 +8,37 @@ A project scaffold for AI-native software development with Claude Code. This rep
 ai-native-dev-scaffold/
 ├── .claude/
 │   └── commands/
-│       ├── project/           # PR lifecycle and documentation commands (9 commands)
-│       │   ├── start-pr.md       # Create branch + paper trail
-│       │   ├── implement-pr.md   # Execute from PLAN.md with tracking
-│       │   ├── verify-pr.md      # Run lint/test/build checks
-│       │   ├── close-pr.md       # Merge PR + complete docs
-│       │   ├── execute-pr.md     # Full lifecycle orchestrator
-│       │   ├── pr-status.md      # PR progress view
-│       │   ├── decision.md       # Create ADR
-│       │   ├── context-update.md # Refresh living context
-│       │   └── context-status.md # Documentation health report
-│       ├── hl/                # Advanced workflow commands (22 commands)
-│       │   ├── create_plan.md         # Interactive plan creation (opus)
-│       │   ├── create_plan_nt.md      # Lightweight plan (no docs/)
-│       │   ├── implement_plan.md      # Execute plans phase by phase
-│       │   ├── iterate_plan.md        # Update existing plans (opus)
-│       │   ├── iterate_plan_nt.md     # Lightweight iteration
-│       │   ├── validate_plan.md       # Verify implementation matches plan
-│       │   ├── execute_pr.md          # Implement from PR paper trail
+│       ├── project/           # All workflow commands (30+ commands)
+│       │   ├── start-pr.md            # Create branch + paper trail
+│       │   ├── implement-pr.md        # Execute from PLAN.md with tracking
+│       │   ├── verify-pr.md           # Run lint/test/build checks
+│       │   ├── close-pr.md            # Merge PR + complete docs
+│       │   ├── execute-pr.md          # Full lifecycle orchestrator
+│       │   ├── pr-status.md           # PR progress view
+│       │   ├── decision.md            # Create ADR
+│       │   ├── context-update.md      # Refresh living context
+│       │   ├── context-status.md      # Documentation health report
+│       │   ├── create-plan.md         # Interactive plan creation (opus)
+│       │   ├── create-plan-nt.md      # Lightweight plan (no docs/)
+│       │   ├── implement-plan.md      # Execute plans phase by phase
+│       │   ├── iterate-plan.md        # Update existing plans (opus)
+│       │   ├── iterate-plan-nt.md     # Lightweight iteration
+│       │   ├── validate-plan.md       # Verify implementation matches plan
 │       │   ├── oneshot.md             # Research + plan in one go
-│       │   ├── oneshot_plan.md        # Research + plan + implement
+│       │   ├── oneshot-plan.md        # Research + plan + implement
 │       │   ├── commit.md              # Git commits with branch safety
-│       │   ├── ci_commit.md           # Non-interactive commits
-│       │   ├── describe_pr.md         # PR descriptions
-│       │   ├── ci_describe_pr.md      # Non-interactive PR desc
-│       │   ├── describe_pr_nt.md      # Lightweight PR desc
+│       │   ├── ci-commit.md           # Non-interactive commits
+│       │   ├── describe-pr.md         # PR descriptions
+│       │   ├── ci-describe-pr.md      # Non-interactive PR desc
+│       │   ├── describe-pr-nt.md      # Lightweight PR desc
 │       │   ├── debug.md               # Debug issues
-│       │   ├── research_codebase.md   # Research + doc generation (opus)
-│       │   ├── research_codebase_generic.md  # Deep research with sub-agents
-│       │   ├── research_codebase_nt.md       # Lightweight inline research
-│       │   ├── local_review.md        # Review PRs locally
-│       │   ├── founder_mode.md        # Rapid development mode
-│       │   ├── create_handoff.md      # Session handoffs
-│       │   └── resume_handoff.md      # Resume handoffs
+│       │   ├── research-codebase.md   # Research + doc generation (opus)
+│       │   ├── research-codebase-generic.md  # Deep research with sub-agents
+│       │   ├── research-codebase-nt.md       # Lightweight inline research
+│       │   ├── local-review.md        # Review PRs locally
+│       │   ├── founder-mode.md        # Rapid development mode
+│       │   ├── create-handoff.md      # Session handoffs
+│       │   └── resume-handoff.md      # Resume handoffs
 │       └── shared/            # Shared utilities
 │           └── branch-safety.md  # PR workflow enforcement
 ├── docs/
@@ -53,7 +51,10 @@ ai-native-dev-scaffold/
 │   ├── handoffs/              # Session handoff documents
 │   ├── plans/                 # Implementation plans
 │   ├── research/              # Codebase research documents
-│   └── prs/                   # PR paper trails
+│   └── prs/                   # PR paper trails (lifecycle directories)
+│       ├── planning/          # PRs in research/planning phase
+│       ├── implementing/      # PRs actively being implemented
+│       ├── _archive/          # Merged/closed PRs
 │       └── _TEMPLATE/         # Template PR folder
 │           ├── RESEARCH.md    # Problem exploration & options
 │           ├── PLAN.md        # Implementation strategy
@@ -96,7 +97,6 @@ git init
 
 ```bash
 cp -r .claude/commands/project ~/.claude/commands/
-cp -r .claude/commands/hl ~/.claude/commands/
 cp -r .claude/commands/shared ~/.claude/commands/
 ```
 
@@ -124,7 +124,7 @@ Here's a concrete example of taking a feature from idea to merged code using the
 
 This creates:
 - Branch: `feature/pr-042-user-authentication`
-- Paper trail: `docs/prs/2025-02-07-PR-042-user-authentication/`
+- Paper trail: `docs/prs/planning/2025-02-07-PR-042-user-authentication/`
   - `RESEARCH.md` (empty template)
   - `PLAN.md` (empty template)
   - `IMPLEMENTATION.md` (empty template)
@@ -136,7 +136,7 @@ This creates:
 Fill in RESEARCH.md yourself, or use Claude to help research the codebase:
 
 ```
-/hl:research_codebase_nt
+/project:research-codebase-nt
 > How does our app currently handle sessions? What auth patterns exist?
 ```
 
@@ -153,7 +153,7 @@ If you're making a significant architectural choice, record it:
 Write PLAN.md with the chosen approach, scope, technical design, and implementation order. Or use Claude to generate a plan:
 
 ```
-/hl:create_plan
+/project:create-plan
 > Implement JWT authentication based on docs/prs/2025-02-07-PR-042-user-authentication/RESEARCH.md
 ```
 
@@ -162,7 +162,7 @@ This researches the codebase, presents design options, and writes a phased plan 
 Need to revise the plan after feedback?
 
 ```
-/hl:iterate_plan docs/prs/2025-02-07-PR-042-user-authentication/PLAN.md
+/project:iterate-plan docs/prs/2025-02-07-PR-042-user-authentication/PLAN.md
 > Add rate limiting to the login endpoint and split into smaller phases
 ```
 
@@ -204,7 +204,7 @@ If anything fails, fix it and re-run. Verification must pass before moving on.
 ### Step 6: Push and create the GitHub PR
 
 ```
-/hl:commit
+/project:commit
 ```
 
 Stages and commits with a conventional commit message. Then push:
@@ -216,7 +216,7 @@ git push -u origin feature/pr-042-user-authentication
 Create the GitHub PR:
 
 ```
-/hl:describe_pr 042
+/project:describe-pr 042
 ```
 
 This generates a PR description from your paper trail (RESEARCH.md + PLAN.md + IMPLEMENTATION.md), analyzes the diff, and creates/updates the PR on GitHub.
@@ -226,7 +226,7 @@ This generates a PR description from your paper trail (RESEARCH.md + PLAN.md + I
 Have a teammate review, or review locally:
 
 ```
-/hl:local_review 042
+/project:local-review 042
 ```
 
 This analyzes the diff, CI status, and presents a structured review with findings. Can post the review to GitHub.
@@ -276,7 +276,7 @@ It pauses at the approval gate to let you review before merging. If interrupted 
 If the full paper trail feels like overkill:
 
 ```
-/hl:oneshot_plan
+/project:oneshot-plan
 > Add a logout button to the nav bar
 ```
 
@@ -285,7 +285,7 @@ This does research, planning, and implementation in one session. Still creates a
 Or for rapid prototyping:
 
 ```
-/hl:founder_mode
+/project:founder-mode
 ```
 
 Bias toward action over planning. Makes assumptions instead of asking questions. Still enforces branch safety and PRs.
@@ -311,64 +311,71 @@ Bias toward action over planning. Makes assumptions instead of asking questions.
 | `/project:context-update` | Refresh ACTIVE_PRS.md and RECENT_DECISIONS.md |
 | `/project:context-status` | Documentation health report with staleness checks |
 
-### Planning (`/hl:*`)
+### Planning (`/project:*`)
 
 | Command | Purpose |
 |---------|---------|
-| `/hl:create_plan` | Interactive plan creation with codebase research (opus) |
-| `/hl:create_plan_nt` | Lightweight plan, no docs/ directory required (opus) |
-| `/hl:implement_plan` | Execute plan phase by phase with verification |
-| `/hl:iterate_plan` | Update existing plan based on feedback (opus) |
-| `/hl:iterate_plan_nt` | Lightweight plan iteration (opus) |
-| `/hl:validate_plan` | Verify implementation matches plan |
-| `/hl:execute_pr` | Implement from PR paper trail (RESEARCH + PLAN) |
-| `/hl:oneshot` | Research + plan in one flow |
-| `/hl:oneshot_plan` | Research + plan + implement in one session |
+| `/project:create-plan` | Interactive plan creation with codebase research (opus) |
+| `/project:create-plan-nt` | Lightweight plan, no docs/ directory required (opus) |
+| `/project:implement-plan` | Execute plan phase by phase with verification |
+| `/project:iterate-plan` | Update existing plan based on feedback (opus) |
+| `/project:iterate-plan-nt` | Lightweight plan iteration (opus) |
+| `/project:validate-plan` | Verify implementation matches plan |
+| `/project:oneshot` | Research + plan in one flow |
+| `/project:oneshot-plan` | Research + plan + implement in one session |
 
-### Git & PR (`/hl:*`)
-
-| Command | Purpose |
-|---------|---------|
-| `/hl:commit` | Commits with branch safety enforcement |
-| `/hl:ci_commit` | Non-interactive commit for CI workflows |
-| `/hl:describe_pr` | Generate PR description from paper trail |
-| `/hl:ci_describe_pr` | Non-interactive PR description for CI |
-| `/hl:describe_pr_nt` | Lightweight PR description |
-
-### Research & Debug (`/hl:*`)
+### Git & PR (`/project:*`)
 
 | Command | Purpose |
 |---------|---------|
-| `/hl:research_codebase` | Codebase research + doc generation (opus) |
-| `/hl:research_codebase_generic` | Deep research with parallel sub-agents (opus) |
-| `/hl:research_codebase_nt` | Lightweight inline research (opus) |
-| `/hl:debug` | Investigate logs and code (read-only) |
+| `/project:commit` | Commits with branch safety enforcement |
+| `/project:ci-commit` | Non-interactive commit for CI workflows |
+| `/project:describe-pr` | Generate PR description from paper trail |
+| `/project:ci-describe-pr` | Non-interactive PR description for CI |
+| `/project:describe-pr-nt` | Lightweight PR description |
 
-### Review, Handoffs, and Modes (`/hl:*`)
+### Research & Debug (`/project:*`)
 
 | Command | Purpose |
 |---------|---------|
-| `/hl:local_review` | Review a colleague's PR locally |
-| `/hl:create_handoff` | Create session handoff document |
-| `/hl:resume_handoff` | Resume from handoff document |
-| `/hl:founder_mode` | Rapid development with bias toward action |
+| `/project:research-codebase` | Codebase research + doc generation (opus) |
+| `/project:research-codebase-generic` | Deep research with parallel sub-agents (opus) |
+| `/project:research-codebase-nt` | Lightweight inline research (opus) |
+| `/project:debug` | Investigate logs and code (read-only) |
+
+### Review, Handoffs, and Modes (`/project:*`)
+
+| Command | Purpose |
+|---------|---------|
+| `/project:local-review` | Review a colleague's PR locally |
+| `/project:create-handoff` | Create session handoff document |
+| `/project:resume-handoff` | Resume from handoff document |
+| `/project:founder-mode` | Rapid development with bias toward action |
 
 ## Choosing the Right Path
 
 | Situation | Use this |
 |-----------|----------|
 | Complex feature (days of work) | `/project:execute-pr` or manual step-by-step |
-| Medium task (hours) | `/hl:oneshot_plan` |
-| Quick fix or small feature | `/hl:founder_mode` |
-| Need a detailed plan first | `/hl:create_plan` then `/project:implement-pr` |
-| Continuing someone else's work | `/hl:resume_handoff` |
-| Debugging an issue | `/hl:debug` |
-| Understanding the codebase | `/hl:research_codebase` |
-| Reviewing a colleague's PR | `/hl:local_review` |
+| Medium task (hours) | `/project:oneshot-plan` |
+| Quick fix or small feature | `/project:founder-mode` |
+| Need a detailed plan first | `/project:create-plan` then `/project:implement-pr` |
+| Continuing someone else's work | `/project:resume-handoff` |
+| Debugging an issue | `/project:debug` |
+| Understanding the codebase | `/project:research-codebase` |
+| Reviewing a colleague's PR | `/project:local-review` |
 
 ## PR Paper Trail Format
 
-Each PR gets a folder (`docs/prs/{date}-PR-{num}-{slug}/`) with three documents:
+Each PR gets a folder that moves through lifecycle directories:
+
+```
+docs/prs/planning/{date}-PR-{num}-{slug}/     # Created by /project:start-pr
+docs/prs/implementing/{date}-PR-{num}-{slug}/  # Moved by /project:execute-pr
+docs/prs/_archive/{date}-PR-{num}-{slug}/      # Moved by /project:close-pr
+```
+
+Each folder contains three documents:
 
 **RESEARCH.md** - The "why": Problem statement, context gathered, options considered with pros/cons, recommendation, open questions.
 
@@ -422,7 +429,7 @@ This is an open scaffold - please contribute improvements:
 2. Create a feature branch
 3. Submit a pull request
 
-Many of the `/hl:*` commands are adapted from [HumanLayer](https://github.com/humanlayer/humanlayer).
+Many of the `/project:*` commands are adapted from [HumanLayer](https://github.com/humanlayer/humanlayer).
 
 ## License
 

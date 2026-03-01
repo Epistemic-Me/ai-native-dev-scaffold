@@ -58,7 +58,7 @@ Generate a PR description without requiring a docs/ directory or paper trail str
 [List or "None"]
 ```
 
-## Key Difference from /hl:describe_pr
+## Key Difference from /project:describe-pr
 - Does NOT look for docs/prs/ paper trail
 - Does NOT require project docs structure
 - Simpler, faster for projects without the full scaffold

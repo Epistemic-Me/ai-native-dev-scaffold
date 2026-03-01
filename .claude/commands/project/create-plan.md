@@ -27,8 +27,8 @@ Please provide:
 
 I'll analyze this information and work with you to create a comprehensive plan.
 
-Tip: You can also invoke this command with a file directly: `/hl:create_plan path/to/ticket.md`
-For deeper analysis, try: `/hl:create_plan think deeply about path/to/ticket.md`
+Tip: You can also invoke this command with a file directly: `/project:create-plan path/to/ticket.md`
+For deeper analysis, try: `/project:create-plan think deeply about path/to/ticket.md`
 ```
 
 Then wait for the user's input.

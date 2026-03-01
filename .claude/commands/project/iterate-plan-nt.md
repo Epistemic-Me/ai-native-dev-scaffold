@@ -53,7 +53,7 @@ Present changes made and ask for further adjustments.
 3. **Be Thorough** - Read entire plan before changing
 4. **No Open Questions** - Resolve all uncertainties
 
-## Key Difference from /hl:iterate_plan
+## Key Difference from /project:iterate-plan
 - Works with plans stored anywhere
 - No docs/ directory assumptions
 - No YAML frontmatter requirements

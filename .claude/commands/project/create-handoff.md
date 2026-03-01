@@ -93,7 +93,7 @@ After writing the handoff document, respond with:
 ```
 Handoff created! You can resume from this handoff in a new session with:
 
-/hl:resume_handoff docs/handoffs/{filename}.md
+/project:resume-handoff docs/handoffs/{filename}.md
 ```
 
 ## Additional Notes & Instructions

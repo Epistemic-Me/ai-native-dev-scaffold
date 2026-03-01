@@ -95,6 +95,6 @@ Write to `docs/research/YYYY-MM-DD-description.md`:
 - Append follow-ups to same document
 
 ## Key Difference from Other Research Commands
-- **vs /hl:research_codebase**: Same output format, but more aggressive agent deployment
-- **vs /hl:research_codebase_nt**: Generates a document file, not just inline findings
+- **vs /project:research-codebase**: Same output format, but more aggressive agent deployment
+- **vs /project:research-codebase-nt**: Generates a document file, not just inline findings
 - This is the "go deep" variant for comprehensive understanding

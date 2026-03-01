@@ -23,7 +23,7 @@ Please provide:
 1. The task description or reference to a file
 2. Any relevant context or constraints
 
-Tip: `/hl:create_plan_nt path/to/ticket.md`
+Tip: `/project:create-plan-nt path/to/ticket.md`
 ```
 
 ## Process Steps
@@ -102,14 +102,14 @@ If the user specifies a path, write there. Otherwise, present the plan directly 
 
 Present the plan and iterate based on feedback.
 
-## Key Difference from /hl:create_plan
+## Key Difference from /project:create-plan
 
 This command does NOT:
 - Require a `docs/` directory structure
 - Write to a predetermined location
 - Generate YAML frontmatter or metadata
 
-Use `/hl:create_plan` instead when you want the full paper trail integration.
+Use `/project:create-plan` instead when you want the full paper trail integration.
 
 ## Guidelines
 

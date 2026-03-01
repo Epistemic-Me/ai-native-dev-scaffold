@@ -70,13 +70,13 @@ End-to-end execution: research a ticket, create a plan, and implement it - all i
    - [ ] Manual testing: [what to test]
 
    **Next steps:**
-   - Run `/hl:commit` to create commits
-   - Run `/hl:describe_pr` to update PR description
+   - Run `/project:commit` to create commits
+   - Run `/project:describe-pr` to update PR description
    ```
 
 ## When to Use This vs Separate Commands
 
-| Use `/hl:oneshot_plan` | Use separate commands |
+| Use `/project:oneshot-plan` | Use separate commands |
 |------------------------|----------------------|
 | Small, well-scoped tasks | Large, complex features |
 | Clear requirements | Ambiguous requirements |
@@ -86,4 +86,4 @@ End-to-end execution: research a ticket, create a plan, and implement it - all i
 ## Important:
 - Still requires feature branch (never implement on master/main)
 - Skip the handoff document since this is a single-session workflow
-- If the task turns out to be bigger than expected, pause and switch to `/hl:create_plan`
+- If the task turns out to be bigger than expected, pause and switch to `/project:create-plan`

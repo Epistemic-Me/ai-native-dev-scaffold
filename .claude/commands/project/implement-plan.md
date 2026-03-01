@@ -97,9 +97,9 @@ Do not check off items in the manual testing steps until confirmed by the user.
 
 After completing implementation:
 1. **Verify still on feature branch** (not master/main)
-2. Use `/hl:commit` to create commits (it will verify branch safety)
+2. Use `/project:commit` to create commits (it will verify branch safety)
 3. Push to remote: `git push -u origin [branch-name]`
-4. Use `/hl:describe_pr` to update PR description
+4. Use `/project:describe-pr` to update PR description
 5. Never merge without human review
 
 ## If You Get Stuck

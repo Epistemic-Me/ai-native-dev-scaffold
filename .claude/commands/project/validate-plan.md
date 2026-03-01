@@ -142,9 +142,9 @@ Always verify:
 ## Relationship to Other Commands
 
 Recommended workflow:
-1. `/hl:implement_plan` - Execute the implementation
-2. `/hl:commit` - Create atomic commits for changes
-3. `/hl:validate_plan` - Verify implementation correctness
-4. `/hl:describe_pr` - Generate PR description
+1. `/project:implement-plan` - Execute the implementation
+2. `/project:commit` - Create atomic commits for changes
+3. `/project:validate-plan` - Verify implementation correctness
+4. `/project:describe-pr` - Generate PR description
 
 Remember: Good validation catches issues before they reach production. Be constructive but thorough in identifying gaps or improvements.

@@ -50,14 +50,14 @@ Now let me create an implementation plan based on these findings.
 
 ### 4. Create the Plan
 
-Follow the `/hl:create_plan` workflow but skip the initial research phase since you've already done it:
+Follow the `/project:create-plan` workflow but skip the initial research phase since you've already done it:
 
 1. Present design options based on your research
 2. Get alignment on approach
 3. Write the plan to `docs/plans/YYYY-MM-DD-description.md`
 4. Include all discovered file:line references
 
-## Key Difference from /hl:create_plan
+## Key Difference from /project:create-plan
 
 This command is optimized for speed:
 - Does research first without asking questions
@@ -65,7 +65,7 @@ This command is optimized for speed:
 - Fewer pauses for confirmation
 - Best for well-defined tasks where the scope is clear
 
-Use `/hl:create_plan` instead when:
+Use `/project:create-plan` instead when:
 - Requirements are ambiguous
 - Multiple stakeholders need alignment
 - The task touches many systems

@@ -20,11 +20,11 @@ Example usage: `/project:start-pr 036 feature-name`
    ```
    Example: `git checkout -b feature/pr-036-feature-name`
 
-3. **Create PR folder**:
+3. **Create PR folder** in the `planning/` lifecycle directory:
    ```
-   docs/prs/{date}-PR-{num}-{slug}/
+   docs/prs/planning/{date}-PR-{num}-{slug}/
    ```
-   Example: `docs/prs/2025-01-15-PR-036-feature-name/`
+   Example: `docs/prs/planning/2025-01-15-PR-036-feature-name/`
 
 4. **Create RESEARCH.md** with this template:
 
@@ -186,7 +186,7 @@ Example usage: `/project:start-pr 036 feature-name`
 
 8. **Stage and commit the paper trail**:
    ```bash
-   git add docs/prs/{date}-PR-{num}-{slug}/
+   git add docs/prs/planning/{date}-PR-{num}-{slug}/
    git commit -m "docs: start PR #{num} - {slug}"
    ```
 
@@ -195,7 +195,7 @@ Example usage: `/project:start-pr 036 feature-name`
    PR #{num} Started
 
    Branch: feature/pr-{num}-{slug}
-   Paper Trail: docs/prs/{date}-PR-{num}-{slug}/
+   Paper Trail: docs/prs/planning/{date}-PR-{num}-{slug}/
 
    Next steps:
    1. Fill in RESEARCH.md with problem statement
