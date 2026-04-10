@@ -1,441 +1,110 @@
 # AI-Native Development Scaffold
 
-A project scaffold for AI-native software development with Claude Code. This repository provides documentation structures, decision records, and Claude commands that enable effective human-AI collaboration on software projects.
+A project scaffold for AI-native software development with Claude Code. Three commands. Zero ambiguity.
+
+## The 3-Command Loop
+
+```
+/start-pr  →  /execute-pr  →  /review-pr
+```
+
+| Command | What it does |
+|---------|-------------|
+| `/project:start-pr 042 add-auth` | Creates branch + docs scaffold (RESEARCH, TEST-STRATEGY, IMPLEMENTATION-PLAN, IMPLEMENTATION) |
+| `/project:execute-pr 042` | Reads IMPLEMENTATION-PLAN.md, implements phase by phase, tracks progress |
+| `/project:review-pr 042` | AI code review → docs-gate check → merge → archive → close |
+
+That's the entire workflow. No close command — `review-pr` handles merge and cleanup when approved.
+
+## The Philosophy: Brainpower Moves Left
+
+**Old world**: Think a little → code a lot → discover problems in QA → fix in prod.
+**New world**: Think a LOT → define exit criteria → plan step-by-step → execute fast with confidence.
+
+You spend 60-70% of your effort in **RESEARCH.md → TEST-STRATEGY.md → IMPLEMENTATION-PLAN.md**. By the time you run `/execute-pr`, the thinking is done. Execution is mechanical.
+
+### Fill Order
+
+Before running `/execute-pr`, fill these docs IN ORDER:
+
+1. **RESEARCH.md** — Understand the problem. Iterate with AI: "what am I missing? what are the edge cases?"
+2. **TEST-STRATEGY.md** — Define acceptance criteria and test matrix BEFORE code. If you can't write this, you don't understand the problem yet.
+3. **IMPLEMENTATION-PLAN.md** — Step-by-step plan mapped to ACs. Anyone should be able to follow this.
+
+## Getting Started (15 minutes)
+
+### 1. Clone and reinitialize
+
+```bash
+git clone https://github.com/Epistemic-Me/ai-native-dev-scaffold.git my-project
+cd my-project
+rm -rf .git
+git init
+git add -A
+git commit -m "init: scaffold from ai-native-dev-scaffold"
+```
+
+### 2. Customize CLAUDE.md
+
+Add your project-specific instructions: how to run locally, run tests, key files, environment variables.
+
+### 3. Fill in your context docs
+
+Fill `docs/.context/ARCHITECTURE-TAXONOMY.md` and `docs/.context/KNOWN_ISSUES.md` at minimum.
+
+### 4. Start your first PR
+
+```
+/project:start-pr 001 initial-feature
+```
 
 ## What's Included
 
 ```
 ai-native-dev-scaffold/
-├── .claude/
-│   └── commands/
-│       ├── project/           # All workflow commands (30+ commands)
-│       │   ├── start-pr.md            # Create branch + paper trail
-│       │   ├── implement-pr.md        # Execute from PLAN.md with tracking
-│       │   ├── verify-pr.md           # Run lint/test/build checks
-│       │   ├── close-pr.md            # Merge PR + complete docs
-│       │   ├── execute-pr.md          # Full lifecycle orchestrator
-│       │   ├── pr-status.md           # PR progress view
-│       │   ├── decision.md            # Create ADR
-│       │   ├── context-update.md      # Refresh living context
-│       │   ├── context-status.md      # Documentation health report
-│       │   ├── create-plan.md         # Interactive plan creation (opus)
-│       │   ├── create-plan-nt.md      # Lightweight plan (no docs/)
-│       │   ├── implement-plan.md      # Execute plans phase by phase
-│       │   ├── iterate-plan.md        # Update existing plans (opus)
-│       │   ├── iterate-plan-nt.md     # Lightweight iteration
-│       │   ├── validate-plan.md       # Verify implementation matches plan
-│       │   ├── oneshot.md             # Research + plan in one go
-│       │   ├── oneshot-plan.md        # Research + plan + implement
-│       │   ├── commit.md              # Git commits with branch safety
-│       │   ├── ci-commit.md           # Non-interactive commits
-│       │   ├── describe-pr.md         # PR descriptions
-│       │   ├── ci-describe-pr.md      # Non-interactive PR desc
-│       │   ├── describe-pr-nt.md      # Lightweight PR desc
-│       │   ├── debug.md               # Debug issues
-│       │   ├── research-codebase.md   # Research + doc generation (opus)
-│       │   ├── research-codebase-generic.md  # Deep research with sub-agents
-│       │   ├── research-codebase-nt.md       # Lightweight inline research
-│       │   ├── local-review.md        # Review PRs locally
-│       │   ├── founder-mode.md        # Rapid development mode
-│       │   ├── create-handoff.md      # Session handoffs
-│       │   └── resume-handoff.md      # Resume handoffs
-│       └── shared/            # Shared utilities
-│           └── branch-safety.md  # PR workflow enforcement
+├── .claude/commands/
+│   ├── project/              # 5 commands total
+│   │   ├── start-pr.md      # 1. Create branch + docs scaffold
+│   │   ├── execute-pr.md    # 2. Implement from plan
+│   │   ├── review-pr.md     # 3. Review + merge + close
+│   │   ├── decision.md      # Create ADRs
+│   │   └── context-update.md
+│   └── shared/
+│       └── branch-safety.md
 ├── docs/
-│   ├── .context/              # Living project context
-│   │   ├── ACTIVE_PRS.md      # Currently open PRs
-│   │   └── RECENT_DECISIONS.md # Recent architectural decisions
-│   ├── decisions/             # Architecture Decision Records (ADRs)
-│   │   ├── _INDEX.md          # Decision catalog
-│   │   └── _TEMPLATE.md       # ADR template
-│   ├── handoffs/              # Session handoff documents
-│   ├── plans/                 # Implementation plans
-│   ├── research/              # Codebase research documents
-│   └── prs/                   # PR paper trails (lifecycle directories)
-│       ├── planning/          # PRs in research/planning phase
-│       ├── implementing/      # PRs actively being implemented
-│       ├── _archive/          # Merged/closed PRs
-│       └── _TEMPLATE/         # Template PR folder
-│           ├── RESEARCH.md    # Problem exploration & options
-│           ├── PLAN.md        # Implementation strategy
-│           └── IMPLEMENTATION.md # What was actually built
-└── CLAUDE.md                  # Project instructions for Claude
+│   ├── .context/             # Project brain (6 template files)
+│   ├── decisions/            # ADRs (_INDEX + _TEMPLATE)
+│   ├── prs/
+│   │   ├── planning/         # PRs in research phase
+│   │   ├── implementing/     # PRs being coded
+│   │   ├── _archive/         # Merged PRs (includes filled example)
+│   │   └── _TEMPLATE/        # RESEARCH, TEST-STRATEGY, IMPL-PLAN, IMPL
+│   └── research/
+├── scripts/
+│   └── pr_docs_check.py      # Docs-gate validator
+├── .github/workflows/
+│   └── pr-docs-gate.yml      # CI: blocks merge if docs missing
+└── CLAUDE.md
 ```
 
-## Philosophy
+## Example
 
-### Paper Trails Over Comments
+See `docs/prs/_archive/2026-01-15-PR-001-add-user-registration/` for a complete filled example.
 
-Instead of inline comments that rot, we maintain living documentation:
+## CI Docs Gate
 
-- **RESEARCH.md** - Why are we doing this? What options did we consider?
-- **PLAN.md** - How will we implement it? What's in/out of scope?
-- **IMPLEMENTATION.md** - What did we actually build? What did we learn?
+Every PR to `main` is checked automatically. Blocks merge if RESEARCH.md, TEST-STRATEGY.md, or IMPLEMENTATION-PLAN.md are missing.
 
-### Decisions Are First-Class
+## Maturity Levels
 
-Every significant technical decision gets an ADR that captures context at decision time, documents alternatives considered, explains trade-offs, and is linkable from code and PRs.
+This is the **Walk** repo (Level 1-2). When ready for stakeholder alignment + digital twin compound loop, upgrade to **Run**: [ai-native-dev-scaffold-compound](https://github.com/Epistemic-Me/ai-native-dev-scaffold-compound).
 
-### AI as Collaborator
-
-The `.claude/commands/` folder contains slash commands that automate documentation scaffolding, enforce consistent structure, and reduce friction in the development process.
-
-## Getting Started
-
-### 1. Clone this scaffold
-
-```bash
-git clone https://github.com/yourusername/ai-native-dev-scaffold.git my-project
-cd my-project
-rm -rf .git
-git init
-```
-
-### 2. Install Claude commands
-
-**Option A: Global install** (available in all projects):
-
-```bash
-cp -r .claude/commands/project ~/.claude/commands/
-cp -r .claude/commands/shared ~/.claude/commands/
-```
-
-**Option B: Project-local** (leave them in `.claude/commands/`).
-
-### 3. Try it out
-
-```bash
-# Start your first PR
-/project:start-pr 001 initial-setup
-
-# Or jump straight into the full lifecycle
-/project:execute-pr 001
-```
-
-## Walkthrough: Feature to Production
-
-Here's a concrete example of taking a feature from idea to merged code using the scaffold. We'll add user authentication to a project.
-
-### Step 1: Start the PR
-
-```
-/project:start-pr 042 user-authentication
-```
-
-This creates:
-- Branch: `feature/pr-042-user-authentication`
-- Paper trail: `docs/prs/planning/2025-02-07-PR-042-user-authentication/`
-  - `RESEARCH.md` (empty template)
-  - `PLAN.md` (empty template)
-  - `IMPLEMENTATION.md` (empty template)
-- Updates `ACTIVE_PRS.md`
-- Commits the paper trail to the feature branch
-
-### Step 2: Research the problem
-
-Fill in RESEARCH.md yourself, or use Claude to help research the codebase:
-
-```
-/project:research-codebase-nt
-> How does our app currently handle sessions? What auth patterns exist?
-```
-
-Then fill in RESEARCH.md with the problem statement, options you considered (JWT vs sessions vs OAuth), and your recommendation. This is the "why" behind the work.
-
-If you're making a significant architectural choice, record it:
-
-```
-/project:decision jwt-authentication
-```
-
-### Step 3: Plan the implementation
-
-Write PLAN.md with the chosen approach, scope, technical design, and implementation order. Or use Claude to generate a plan:
-
-```
-/project:create-plan
-> Implement JWT authentication based on docs/prs/planning/2025-02-07-PR-042-user-authentication/RESEARCH.md
-```
-
-This researches the codebase, presents design options, and writes a phased plan with success criteria to PLAN.md.
-
-Need to revise the plan after feedback?
-
-```
-/project:iterate-plan docs/prs/planning/2025-02-07-PR-042-user-authentication/PLAN.md
-> Add rate limiting to the login endpoint and split into smaller phases
-```
-
-### Step 4: Implement
-
-```
-/project:implement-pr 042
-```
-
-This reads PLAN.md, creates a TodoWrite task list from the implementation order, and works through each task. As it goes, it:
-- Tracks progress (`3/7 tasks complete`)
-- Makes incremental commits on the feature branch
-- Updates IMPLEMENTATION.md with key changes and any deviations from the plan
-- Pauses on blockers to ask you how to proceed
-
-### Step 5: Verify
-
-```
-/project:verify-pr 042
-```
-
-Auto-detects your project's verification tools and runs them:
-
-```
-PR-042 Verification Results
-
-| Check     | Status | Notes     |
-|-----------|--------|-----------|
-| Lint      | PASS   |           |
-| TypeCheck | PASS   |           |
-| Tests     | PASS   | 87% cov   |
-| Build     | PASS   |           |
-
-Overall: PASS
-```
-
-If anything fails, fix it and re-run. Verification must pass before moving on.
-
-### Step 6: Push and create the GitHub PR
-
-```
-/project:commit
-```
-
-Stages and commits with a conventional commit message. Then push:
-
-```bash
-git push -u origin feature/pr-042-user-authentication
-```
-
-Create the GitHub PR:
-
-```
-/project:describe-pr 042
-```
-
-This generates a PR description from your paper trail (RESEARCH.md + PLAN.md + IMPLEMENTATION.md), analyzes the diff, and creates/updates the PR on GitHub.
-
-### Step 7: Review
-
-Have a teammate review, or review locally:
-
-```
-/project:local-review 042
-```
-
-This analyzes the diff, CI status, and presents a structured review with findings. Can post the review to GitHub.
-
-### Step 8: Merge and close
-
-After approval:
-
-```
-/project:close-pr 042
-```
-
-This:
-- Merges the PR via `gh pr merge --squash --delete-branch`
-- Checks out main and pulls
-- Completes IMPLEMENTATION.md (summary, learnings)
-- Archives the PR folder from `implementing/` to `_archive/`
-- Moves the PR from "Open" to "Recently Merged" in ACTIVE_PRS.md
-- Checks for architectural decisions and prompts ADR creation if needed
-- Commits documentation updates to main
-
-### Step 9: Update project context
-
-```
-/project:context-update
-```
-
-Refreshes all `.context/` files to reflect the new state of the project.
-
-### The Automated Path
-
-Don't want to run each step manually? The master orchestrator does everything:
-
-```
-/project:execute-pr 042
-```
-
-This chains together all 8 phases automatically:
-
-```
-start-pr → implement-pr → verify-pr → push → create GH PR → approval gate → close-pr → context-update
-```
-
-It pauses at the approval gate to let you review before merging. If interrupted at any point, re-running the same command detects existing state and resumes where it left off.
-
-### For Small Tasks
-
-If the full paper trail feels like overkill:
-
-```
-/project:oneshot-plan
-> Add a logout button to the nav bar
-```
-
-This does research, planning, and implementation in one session. Still creates a feature branch and PR, just without the full `docs/prs/` paper trail.
-
-Or for rapid prototyping:
-
-```
-/project:founder-mode
-```
-
-Bias toward action over planning. Makes assumptions instead of asking questions. Still enforces branch safety and PRs.
-
-## Commands Reference
-
-### PR Lifecycle (`/project:*`)
-
-| Command | Purpose |
-|---------|---------|
-| `/project:start-pr {num} {slug}` | Create feature branch + paper trail folder |
-| `/project:implement-pr {num}` | Execute implementation from PLAN.md with tracking |
-| `/project:verify-pr {num}` | Run lint, typecheck, test, build checks |
-| `/project:close-pr {num}` | Merge GitHub PR, complete docs, check for ADRs |
-| `/project:execute-pr {num}` | Full lifecycle orchestrator (all of the above) |
-| `/project:pr-status [num]` | PR progress, phase, and next action |
-
-### Documentation (`/project:*`)
-
-| Command | Purpose |
-|---------|---------|
-| `/project:decision {slug}` | Create Architecture Decision Record |
-| `/project:context-update` | Refresh ACTIVE_PRS.md and RECENT_DECISIONS.md |
-| `/project:context-status` | Documentation health report with staleness checks |
-
-### Planning (`/project:*`)
-
-| Command | Purpose |
-|---------|---------|
-| `/project:create-plan` | Interactive plan creation with codebase research (opus) |
-| `/project:create-plan-nt` | Lightweight plan, no docs/ directory required (opus) |
-| `/project:implement-plan` | Execute plan phase by phase with verification |
-| `/project:iterate-plan` | Update existing plan based on feedback (opus) |
-| `/project:iterate-plan-nt` | Lightweight plan iteration (opus) |
-| `/project:validate-plan` | Verify implementation matches plan |
-| `/project:oneshot` | Research + plan in one flow |
-| `/project:oneshot-plan` | Research + plan + implement in one session |
-
-### Git & PR (`/project:*`)
-
-| Command | Purpose |
-|---------|---------|
-| `/project:commit` | Commits with branch safety enforcement |
-| `/project:ci-commit` | Non-interactive commit for CI workflows |
-| `/project:describe-pr` | Generate PR description from paper trail |
-| `/project:ci-describe-pr` | Non-interactive PR description for CI |
-| `/project:describe-pr-nt` | Lightweight PR description |
-
-### Research & Debug (`/project:*`)
-
-| Command | Purpose |
-|---------|---------|
-| `/project:research-codebase` | Codebase research + doc generation (opus) |
-| `/project:research-codebase-generic` | Deep research with parallel sub-agents (opus) |
-| `/project:research-codebase-nt` | Lightweight inline research (opus) |
-| `/project:debug` | Investigate logs and code (read-only) |
-
-### Review, Handoffs, and Modes (`/project:*`)
-
-| Command | Purpose |
-|---------|---------|
-| `/project:local-review` | Review a colleague's PR locally |
-| `/project:create-handoff` | Create session handoff document |
-| `/project:resume-handoff` | Resume from handoff document |
-| `/project:founder-mode` | Rapid development with bias toward action |
-
-## Choosing the Right Path
-
-| Situation | Use this |
-|-----------|----------|
-| Complex feature (days of work) | `/project:execute-pr` or manual step-by-step |
-| Medium task (hours) | `/project:oneshot-plan` |
-| Quick fix or small feature | `/project:founder-mode` |
-| Need a detailed plan first | `/project:create-plan` then `/project:implement-pr` |
-| Continuing someone else's work | `/project:resume-handoff` |
-| Debugging an issue | `/project:debug` |
-| Understanding the codebase | `/project:research-codebase` |
-| Reviewing a colleague's PR | `/project:local-review` |
-
-## PR Paper Trail Format
-
-Each PR gets a folder that moves through lifecycle directories:
-
-```
-docs/prs/planning/{date}-PR-{num}-{slug}/     # Created by /project:start-pr
-docs/prs/implementing/{date}-PR-{num}-{slug}/  # Moved by /project:execute-pr
-docs/prs/_archive/{date}-PR-{num}-{slug}/      # Moved by /project:close-pr
-```
-
-Each folder contains three documents:
-
-**RESEARCH.md** - The "why": Problem statement, context gathered, options considered with pros/cons, recommendation, open questions.
-
-**PLAN.md** - The "how": Chosen approach, scope (in/out), technical design, implementation order, testing strategy, definition of done.
-
-**IMPLEMENTATION.md** - The "what": Summary of what was built, key changes, deviations from plan, learnings, follow-up items.
-
-## ADR Format
-
-Architecture Decision Records live in `docs/decisions/` and follow this structure:
-
-```markdown
-# ADR-XXX: Title
-
-**Date**: YYYY-MM-DD
-**Status**: Proposed | Accepted | Deprecated | Superseded
-**PR**: #number (if applicable)
-
-## Context
-What issue motivates this decision?
-
-## Decision
-What are we doing?
-
-## Consequences
-### Positive
-### Negative
-
-## Alternatives Considered
-What else did we evaluate? Why not chosen?
-
-## Related
-Links to PRs, other ADRs, external resources
-```
-
-## Best Practices
-
-- **Always work on feature branches** - Never commit to master/main
-- **Fill in RESEARCH.md before coding** - Understand the problem first
-- **Update PLAN.md when scope changes** - Keep it current, not aspirational
-- **Complete IMPLEMENTATION.md with learnings** - Future you will thank you
-- **Record significant decisions as ADRs** - Especially ones future developers will question
-- **Run `/project:context-update` regularly** - Keep living docs current
-- **Use `/project:context-status` to check health** - Catch staleness early
-
-## Contributing
-
-This is an open scaffold - please contribute improvements:
-
-1. Fork the repository
-2. Create a feature branch
-3. Submit a pull request
-
-Many of the `/project:*` commands are adapted from [HumanLayer](https://github.com/humanlayer/humanlayer).
+Same 3 commands — `review-pr` just does more behind the scenes at Run level.
 
 ## License
 
-MIT License - Use freely in your projects.
+MIT — Use freely.
 
 ---
 
-*Built for AI-native development with Claude Code*
+*Built for AI-native development with Claude Code by [Epistemic Me](https://github.com/Epistemic-Me)*
