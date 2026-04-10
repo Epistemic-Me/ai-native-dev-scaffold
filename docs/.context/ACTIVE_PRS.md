@@ -6,13 +6,13 @@ Living document tracking currently open pull requests and their status.
 
 | PR | Title | Started | Paper Trail | Status |
 |----|-------|---------|-------------|--------|
-| <!-- PRs will be added here --> |
+| <!-- PRs will be added here by /start-pr --> |
 
 ## Recently Merged
 
 | PR | Title | Merged | Paper Trail |
 |----|-------|--------|-------------|
-| <!-- Merged PRs will be moved here --> |
+| <!-- Merged PRs will be moved here by /review-pr --> |
 
 ## How to Use
 
@@ -20,17 +20,18 @@ Living document tracking currently open pull requests and their status.
 ```
 /project:start-pr {number} {slug}
 ```
-This creates a paper trail folder and adds an entry here.
+Creates a paper trail folder and adds an entry here.
 
 ### Closing a PR
 ```
-/project:close-pr {number}
+/project:review-pr {number}
 ```
-This moves the PR from "Open PRs" to "Recently Merged" and completes documentation.
+When approved: merges, moves PR from "Open" to "Recently Merged", archives docs.
 
 ## Paper Trail Location
 
-All PR documentation lives in `docs/prs/{date}-PR-{num}-{slug}/`:
-- `RESEARCH.md` - Problem exploration and options
-- `PLAN.md` - Implementation strategy
-- `IMPLEMENTATION.md` - What was actually built
+All PR documentation lives in `docs/prs/{lifecycle}/{date}-PR-{num}-{slug}/`:
+- `RESEARCH.md` — Problem exploration and options
+- `TEST-STRATEGY.md` — Acceptance criteria and test matrix
+- `IMPLEMENTATION-PLAN.md` — Step-by-step implementation plan
+- `IMPLEMENTATION.md` — What was actually built
