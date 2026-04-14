@@ -15,8 +15,8 @@ AI-native development is a three-stage maturity staircase. Each stage has to be 
 | Stage | What it is | Scaffold repo |
 |---|---|---|
 | **Crawl** | Context Foundation: `CLAUDE.md`, `docs/.context/` core set, `MCP_SERVERS.md`, credential policy. No PR workflow yet. | `ai-native-dev-scaffold-crawl` *(coming soon)* |
-| **Walk** *(← you are here)* | Paper Trail + Gate: Crawl + 5-stage PR lifecycle + docs-gate CI + ADR index. Clarity integration begins. | `ai-native-dev-scaffold` (this repo) |
-| **Run** | Compounding Intelligence: Walk + `/stakeholder-alignment` + `/compound` + `/process-transcript` + self-model API. | [`ai-native-dev-scaffold-compound`](https://github.com/Epistemic-Me/ai-native-dev-scaffold-compound) |
+| **Walk** *(← you are here)* | Paper Trail + Gate: Crawl + 5-stage PR lifecycle + docs-gate CI + ADR index. Clarity integration begins. | `ai-native-dev-scaffold-walk` (this repo) |
+| **Run** | Compounding Intelligence: Walk + `/stakeholder-alignment` + `/compound` + `/process-transcript` + self-model API. | [`ai-native-dev-scaffold-run`](https://github.com/Epistemic-Me/ai-native-dev-scaffold-run) |
 
 GitHub's own "Continuous AI" guidance uses the same crawl→walk→run progression for agentic workflows. MIT NANDA's 2025 report found 95% of enterprise AI pilots fail — root cause is the "learning gap" (missing organizational context), not model quality. **Don't skip Crawl.** Start this scaffold only after your team has a working `docs/.context/` and a declared `MCP_SERVERS.md`.
 
@@ -26,7 +26,7 @@ GitHub's own "Continuous AI" guidance uses the same crawl→walk→run progressi
 
 ```bash
 # 1. Clone and reinitialize
-git clone https://github.com/Epistemic-Me/ai-native-dev-scaffold.git my-project
+git clone https://github.com/Epistemic-Me/ai-native-dev-scaffold-walk.git my-project
 cd my-project
 rm -rf .git && git init && git add -A && git commit -m "init: scaffold"
 
@@ -176,7 +176,7 @@ This is the **Walk** scaffold (Level 1-2). When your team is ready for:
 - Compound self-model loop (organizational learning that compounds)
 - Power-user commands (AI-assisted planning, automated PR descriptions, etc.)
 
-Upgrade to **Run**: [ai-native-dev-scaffold-compound](https://github.com/Epistemic-Me/ai-native-dev-scaffold-compound)
+Upgrade to **Run**: [ai-native-dev-scaffold-run](https://github.com/Epistemic-Me/ai-native-dev-scaffold-run)
 
 Same 3 commands. `review-pr` just does more behind the scenes.
 

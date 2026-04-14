@@ -44,7 +44,7 @@ Create `docs/.context/MCP_SERVERS.md` with three sections:
 ### Step 4: README.md (AC5)
 - Change title from "AI-Native Development Scaffold" to "AI-Native Development Scaffold — Walk Stage"
 - Replace subtitle and lifecycle block with real 5-stage version
-- Insert "You Are Here: Crawl / Walk / Run" table with links to `ai-native-dev-scaffold-crawl` and `ai-native-dev-scaffold-compound`
+- Insert "You Are Here: Crawl / Walk / Run" table with links to `ai-native-dev-scaffold-crawl` and `ai-native-dev-scaffold-run`
 
 ## Verification Checklist
 

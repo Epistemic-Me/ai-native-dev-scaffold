@@ -6,7 +6,7 @@ This project is the **Walk** stage of the Crawl → Walk → Run AI-native matur
 
 - **Crawl** — Context Foundation: `CLAUDE.md`, `docs/.context/` core set, `docs/.context/MCP_SERVERS.md`, credential policy. No PR workflow. See `ai-native-dev-scaffold-crawl` *(coming soon)*.
 - **Walk** — Paper Trail + Gate *(← you are here)*: Crawl + 5-stage PR lifecycle + docs-gate CI + ADR index. Clarity integration begins here via `/project:start-pr` capturing intent as an episode.
-- **Run** — Compounding Intelligence: Walk + `/stakeholder-alignment` + `/compound` + `/process-transcript` + self-model API integration. See `ai-native-dev-scaffold-compound`.
+- **Run** — Compounding Intelligence: Walk + `/stakeholder-alignment` + `/compound` + `/process-transcript` + self-model API integration. See `ai-native-dev-scaffold-run`.
 
 Start here if your team needs a verifiable PR paper trail and CI-enforced docs gate. Upgrade to the `-compound` repo when you're ready for the compounding loop.
 

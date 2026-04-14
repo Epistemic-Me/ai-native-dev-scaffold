@@ -7,7 +7,7 @@
 
 DAY-32 shipped a Walk/Run maturity framing to Dayforce engineering directors. Feedback: the framing collapses the real 7-stage Clarity-API lifecycle into a fictional "3-command loop" and assumes teams already have a context foundation (`docs/.context/`, MCP registries, credential hygiene). In reality, missing context engineering is the #1 reason enterprise AI pilots fail. MIT NANDA 2025: 95% of enterprise AI pilots stall with no measurable P&L impact; root cause is the "learning gap" (missing organizational context), not model quality.
 
-The v2 deck reframes the maturity model as **Crawl → Walk → Run**, dimensioned across **People / Process / Tools**. This PR repositions the `ai-native-dev-scaffold` as the **Walk** stage so the example repo matches the deck's claims.
+The v2 deck reframes the maturity model as **Crawl → Walk → Run**, dimensioned across **People / Process / Tools**. This PR repositions the `ai-native-dev-scaffold-walk` as the **Walk** stage so the example repo matches the deck's claims.
 
 ## Current State Analysis
 
@@ -36,7 +36,7 @@ What's missing:
 ## Dependencies and Risks
 
 - **Dependency**: DAY-46 v2 deck revision (in progress)
-- **Dependency**: `ai-native-dev-scaffold-compound` (Run) parallel PR for consistency
+- **Dependency**: `ai-native-dev-scaffold-run` (Run) parallel PR for consistency
 - **Dependency**: `ai-native-dev-scaffold-crawl` repo creation (new — tracked in DAY-46)
 - **Risk**: Existing users of the scaffold may expect the 3-command framing — mitigated by keeping command names intact; only docs change, not behavior
 - **Risk**: Directors may ask about the credential policy's vendor implementation — the policy deliberately stays vendor-agnostic to avoid prescribing 1Password/Vault/etc.
