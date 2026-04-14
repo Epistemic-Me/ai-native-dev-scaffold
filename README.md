@@ -1,12 +1,24 @@
-# AI-Native Development Scaffold
+# AI-Native Development Scaffold — Walk Stage
 
-> 3 commands. That's the entire workflow.
+> 5-stage PR lifecycle on a Crawl context foundation. Paper trail + CI gate enforced.
 
 ```
-/start-pr  →  /execute-pr  →  /review-pr
+/start-pr  →  develop  →  /review-pr  →  /check-pr  →  /close-pr
 ```
 
-This scaffold gives your team a structured PR workflow with AI-powered code review and a CI quality gate — in 15 minutes.
+This scaffold gives your team an enforceable PR workflow with AI-powered code review, docs-gate CI, and an ADR index — in 15 minutes.
+
+## You Are Here: Crawl / Walk / Run
+
+AI-native development is a three-stage maturity staircase. Each stage has to be solid before the next is meaningful.
+
+| Stage | What it is | Scaffold repo |
+|---|---|---|
+| **Crawl** | Context Foundation: `CLAUDE.md`, `docs/.context/` core set, `MCP_SERVERS.md`, credential policy. No PR workflow yet. | `ai-native-dev-scaffold-crawl` *(coming soon)* |
+| **Walk** *(← you are here)* | Paper Trail + Gate: Crawl + 5-stage PR lifecycle + docs-gate CI + ADR index. Clarity integration begins. | `ai-native-dev-scaffold` (this repo) |
+| **Run** | Compounding Intelligence: Walk + `/stakeholder-alignment` + `/compound` + `/process-transcript` + self-model API. | [`ai-native-dev-scaffold-compound`](https://github.com/Epistemic-Me/ai-native-dev-scaffold-compound) |
+
+GitHub's own "Continuous AI" guidance uses the same crawl→walk→run progression for agentic workflows. MIT NANDA's 2025 report found 95% of enterprise AI pilots fail — root cause is the "learning gap" (missing organizational context), not model quality. **Don't skip Crawl.** Start this scaffold only after your team has a working `docs/.context/` and a declared `MCP_SERVERS.md`.
 
 ---
 
