@@ -1,11 +1,11 @@
 # RESEARCH: Reposition scaffold as Walk stage of Crawl/Walk/Run
 
 **Linear**: [DAY-46](https://linear.app/epistemicme/issue/DAY-46)
-**Predecessor**: DAY-32 (AI-Native PR Workflow Slide Deck v1 for Dayforce stakeholders)
+**Predecessor**: DAY-32 (AI-Native PR Workflow Slide Deck v1 for an enterprise software company stakeholders)
 
 ## Requirements Analysis
 
-DAY-32 shipped a Walk/Run maturity framing to Dayforce engineering directors. Feedback: the framing collapses the real 7-stage Clarity-API lifecycle into a fictional "3-command loop" and assumes teams already have a context foundation (`docs/.context/`, MCP registries, credential hygiene). In reality, missing context engineering is the #1 reason enterprise AI pilots fail. MIT NANDA 2025: 95% of enterprise AI pilots stall with no measurable P&L impact; root cause is the "learning gap" (missing organizational context), not model quality.
+DAY-32 shipped a Walk/Run maturity framing to an enterprise software company engineering directors. Feedback: the framing collapses the real 7-stage Clarity-API lifecycle into a fictional "3-command loop" and assumes teams already have a context foundation (`docs/.context/`, MCP registries, credential hygiene). In reality, missing context engineering is the #1 reason enterprise AI pilots fail. MIT NANDA 2025: 95% of enterprise AI pilots stall with no measurable P&L impact; root cause is the "learning gap" (missing organizational context), not model quality.
 
 The v2 deck reframes the maturity model as **Crawl → Walk → Run**, dimensioned across **People / Process / Tools**. This PR repositions the `ai-native-dev-scaffold-run` as the **Walk** stage so the example repo matches the deck's claims.
 
@@ -30,7 +30,7 @@ What's missing:
 |---|---|---|
 | No MCP_SERVERS.md | Users have no pattern for declaring tool access per repo | Create standalone file in `docs/.context/` with Linear/Playwright/GitHub entries + Context Declaration template |
 | No credential policy | Users wire up secrets ad-hoc | Add 5-point abstract policy section to CLAUDE.md (vendor-agnostic) |
-| "3-command loop" framing | Contradicts real Clarity-API 5-stage lifecycle; Dayforce directors will click through and see the mismatch | Rewrite CLAUDE.md lifecycle section and README title to use real stages |
+| "3-command loop" framing | Contradicts real Clarity-API 5-stage lifecycle; an enterprise software company directors will click through and see the mismatch | Rewrite CLAUDE.md lifecycle section and README title to use real stages |
 | No staircase positioning | Users don't understand this is one stage of three | Add "You Are Here" table to top of README and CLAUDE.md linking to Crawl and Run scaffolds |
 
 ## Dependencies and Risks

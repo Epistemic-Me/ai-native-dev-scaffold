@@ -48,7 +48,7 @@ Before a feature enters the roadmap, `/project:slop-filter` scores it against:
 - **Effort vs. value** — realistic ROI
 - **Regression risk** — does this cross domains we're not prepared to support?
 
-Low scores block the feature. This addresses Adam Nachman's concern (Apr 14 2026): *"a lot of [sales asks] we actually want to reject. [...] you're going to end up with product slop."*
+Low scores block the feature. This addresses an enterprise VP of DX's concern (Apr 14 2026): *"a lot of [sales asks] we actually want to reject. [...] you're going to end up with product slop."*
 
 ### `/project:compound` (internal-only)
 
