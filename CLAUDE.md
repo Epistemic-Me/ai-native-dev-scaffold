@@ -1,14 +1,14 @@
 # Claude Code Project Context
 
-This project is the **Walk** stage of the Crawl → Walk → Run AI-native maturity model. It demonstrates an enforceable PR lifecycle built on top of a Crawl-stage context foundation.
+This project is the **Run** stage of the Walk → Run → Sprint AI-native maturity model. It extends the Walk baseline with authoritative per-feature specs, a product slop filter, compound learning from your own PR history, and ADRs with predicted outcomes. Clarity integration begins here as intent capture; at Sprint stage it goes deep with external customer twins.
 
-## You Are Here: Crawl / Walk / Run
+## You Are Here: Walk / Run / Sprint
 
-- **Crawl** — Context Foundation: `CLAUDE.md`, `docs/.context/` core set, `docs/.context/MCP_SERVERS.md`, credential policy. No PR workflow. See `ai-native-dev-scaffold-crawl` *(coming soon)*.
-- **Walk** — Paper Trail + Gate *(← you are here)*: Crawl + 5-stage PR lifecycle + docs-gate CI + ADR index. Clarity integration begins here via `/project:start-pr` capturing intent as an episode.
-- **Run** — Compounding Intelligence: Walk + `/stakeholder-alignment` + `/compound` + `/process-transcript` + self-model API integration. See `ai-native-dev-scaffold-run`.
+- **Walk** — Context foundation + 5-stage PR lifecycle + docs-gate CI. The operational baseline. See [`ai-native-dev-scaffold-walk`](https://github.com/Epistemic-Me/ai-native-dev-scaffold-walk).
+- **Run** *(← you are here)* — Walk + `docs/specs/` authoritative feature specs + product slop filter + `/compound` (internal episodes) + ADR predicted outcomes. Mature engineering org with institutional memory.
+- **Sprint** — Run + digital twins of external stakeholders + `/stakeholder-alignment` against customer voice + `/process-transcript` + self-model API. See [`ai-native-dev-scaffold-sprint`](https://github.com/Epistemic-Me/ai-native-dev-scaffold-sprint).
 
-Start here if your team needs a verifiable PR paper trail and CI-enforced docs gate. Upgrade to the `-compound` repo when you're ready for the compounding loop.
+**Don't start here.** Clone the Walk scaffold first and run it for 2 sprints. Graduate to this repo when scattered feature specs and SME bottlenecks become the limiting factor.
 
 ## The PR Lifecycle (5 stages)
 

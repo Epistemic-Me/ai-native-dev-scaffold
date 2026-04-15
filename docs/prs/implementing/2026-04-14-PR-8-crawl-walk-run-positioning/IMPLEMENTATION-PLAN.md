@@ -15,7 +15,7 @@ Out of scope:
 - Renaming any existing command file
 - Modifying `pr_docs_check.py` or the CI workflow
 - Adding any new slash command to `.claude/commands/`
-- Creating `ai-native-dev-scaffold-crawl` (tracked separately in DAY-46)
+- Creating `ai-native-dev-scaffold-walk` (tracked separately in DAY-46)
 
 ## Files Summary
 
@@ -44,7 +44,7 @@ Create `docs/.context/MCP_SERVERS.md` with three sections:
 ### Step 4: README.md (AC5)
 - Change title from "AI-Native Development Scaffold" to "AI-Native Development Scaffold — Walk Stage"
 - Replace subtitle and lifecycle block with real 5-stage version
-- Insert "You Are Here: Crawl / Walk / Run" table with links to `ai-native-dev-scaffold-crawl` and `ai-native-dev-scaffold-run`
+- Insert "You Are Here: Crawl / Walk / Run" table with links to `ai-native-dev-scaffold-walk` and `ai-native-dev-scaffold-sprint`
 
 ## Verification Checklist
 

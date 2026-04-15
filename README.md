@@ -1,201 +1,115 @@
-# AI-Native Development Scaffold — Walk Stage
+# AI-Native Development Scaffold — Run Stage
 
-> 5-stage PR lifecycle on a Crawl context foundation. Paper trail + CI gate enforced.
+> **Mature engineering org with institutional memory.** Walk baseline + authoritative per-feature specs + product slop filter + compound learning from your own PR history.
 
-```
-/start-pr  →  develop  →  /review-pr  →  /check-pr  →  /close-pr
-```
+This scaffold is the **Run** stage of a Walk → Run → Sprint AI-native maturity staircase. It extends the Walk scaffold with three net-new capabilities that mature engineering orgs need:
 
-This scaffold gives your team an enforceable PR workflow with AI-powered code review, docs-gate CI, and an ADR index — in 15 minutes.
+1. **Authoritative per-feature specs** (`docs/specs/*`) — one living spec per feature, updated by every PR. The input to auto bug triage. Eliminates the "ask an SME" dependency.
+2. **Product slop filter** — stakeholder alignment scoring that can *reject* features, not just approve them. Filters strategically-wrong asks before they hit the roadmap.
+3. **Compound learning from your own PR history** — `/compound` extracts episodes from merged PRs so "we solved this shape of problem before" becomes a query, not a memory.
 
-## You Are Here: Crawl / Walk / Run
-
-AI-native development is a three-stage maturity staircase. Each stage has to be solid before the next is meaningful.
+## You Are Here: Walk / Run / Sprint
 
 | Stage | What it is | Scaffold repo |
 |---|---|---|
-| **Crawl** | Context Foundation: `CLAUDE.md`, `docs/.context/` core set, `MCP_SERVERS.md`, credential policy. No PR workflow yet. | `ai-native-dev-scaffold-crawl` *(coming soon)* |
-| **Walk** *(← you are here)* | Paper Trail + Gate: Crawl + 5-stage PR lifecycle + docs-gate CI + ADR index. Clarity integration begins. | `ai-native-dev-scaffold-walk` (this repo) |
-| **Run** | Compounding Intelligence: Walk + `/stakeholder-alignment` + `/compound` + `/process-transcript` + self-model API. | [`ai-native-dev-scaffold-run`](https://github.com/Epistemic-Me/ai-native-dev-scaffold-run) |
+| **Walk** | Context foundation + 5-stage PR lifecycle + docs-gate CI. The operational baseline. | [`ai-native-dev-scaffold-walk`](https://github.com/Epistemic-Me/ai-native-dev-scaffold-walk) |
+| **Run** *(← you are here)* | Walk + `docs/specs/` authoritative feature specs + product slop filter + `/compound` (internal episodes). Mature engineering org. | `ai-native-dev-scaffold-run` (this repo) |
+| **Sprint** | Run + digital twins of external stakeholders + `/stakeholder-alignment` against customer voice + `/process-transcript` + self-model API. | [`ai-native-dev-scaffold-sprint`](https://github.com/Epistemic-Me/ai-native-dev-scaffold-sprint) |
 
-GitHub's own "Continuous AI" guidance uses the same crawl→walk→run progression for agentic workflows. MIT NANDA's 2025 report found 95% of enterprise AI pilots fail — root cause is the "learning gap" (missing organizational context), not model quality. **Don't skip Crawl.** Start this scaffold only after your team has a working `docs/.context/` and a declared `MCP_SERVERS.md`.
+**Don't start here.** Clone the Walk scaffold first, run it for 2 sprints until the 5-stage lifecycle and docs-gate feel native, then graduate to this repo when scattered feature specs and SME bottlenecks become the limiting factor.
 
----
+## What Run adds beyond Walk
+
+Everything in Walk plus:
+
+### `docs/specs/` — authoritative per-feature specs
+
+Each feature gets ONE living spec. Every PR that touches the feature updates it. The spec is the input to auto bug triage ("here's the acceptance criteria this feature was built against — does this bug violate it?").
+
+Format:
+```
+docs/specs/
+├── _INDEX.md               # Master registry of all feature specs
+├── _TEMPLATE.md            # Blank template
+└── {feature-slug}/
+    ├── SPEC.md             # Living spec (updated by every touching PR)
+    ├── ACCEPTANCE.md       # End-to-end acceptance criteria
+    ├── OWNER.md            # Which team owns this feature
+    └── HISTORY.md          # Changelog of spec changes with PR links
+```
+
+The scaffold ships `docs/specs/_TEMPLATE` and an example spec. Your team populates `docs/specs/*` over 2-3 sprints as you work on each feature.
+
+### Product slop filter
+
+Before a feature enters the roadmap, `/project:slop-filter` scores it against:
+- **Strategic fit** — does this match our product direction?
+- **Generalizability** — is this for one customer or for the 10,000 enterprise customers?
+- **Effort vs. value** — realistic ROI
+- **Regression risk** — does this cross domains we're not prepared to support?
+
+Low scores block the feature. This addresses Adam Nachman's concern (Apr 14 2026): *"a lot of [sales asks] we actually want to reject. [...] you're going to end up with product slop."*
+
+### `/project:compound` (internal-only)
+
+Extracts episodes from merged PRs into a local self-model directory (`docs/.compound/`). Supports query-by-pattern:
+
+```bash
+/project:compound query "interface migration across domains"
+# Returns: [PR-211, PR-287] with RESEARCH.md excerpts and outcome summaries
+```
+
+At Run, compound learning is from **your own PR history only**. External customer signal comes at Sprint via `/process-transcript`.
+
+### ADRs with predicted outcomes
+
+Every ADR template at Run has a **predicted outcome** field. At 90 days post-decision, the team reviews: what did we predict? What happened? Calibration becomes measurable.
+
+## What's carried over from Walk
+
+Full Walk stack — nothing is removed:
+- `.claude/commands/project/` with all 5-stage lifecycle commands
+- `docs/.context/` core set
+- `MCP_SERVERS.md` registry
+- Credential policy
+- `pr-docs-gate.yml` CI
+- `docs/prs/` paper trail structure
+- ADR index
+
+See [`ai-native-dev-scaffold-walk`](https://github.com/Epistemic-Me/ai-native-dev-scaffold-walk) for the underlying baseline.
 
 ## Quick Start
 
 ```bash
 # 1. Clone and reinitialize
-git clone https://github.com/Epistemic-Me/ai-native-dev-scaffold-walk.git my-project
+git clone https://github.com/Epistemic-Me/ai-native-dev-scaffold-run.git my-project
 cd my-project
-rm -rf .git && git init && git add -A && git commit -m "init: scaffold"
+rm -rf .git && git init && git add -A && git commit -m "init: run scaffold"
 
-# 2. Open in your editor with Claude Code (or any AI coding assistant)
+# 2. Populate docs/.context/ (as in Walk)
 
-# 3. Start your first PR
+# 3. Create your first feature spec
+cp docs/specs/_TEMPLATE docs/specs/my-feature
+# Fill in SPEC.md, ACCEPTANCE.md, OWNER.md
+
+# 4. Start your first PR — it will auto-link to the feature spec
 /project:start-pr 001 my-first-feature
 ```
 
-That's it. You now have a feature branch, a docs folder with 4 templates, and an entry in ACTIVE_PRS.md.
+## Design Principle: Walker Floor, Runner Ceiling
 
----
+Walk was designed for walkers. Run adds institutional memory without leaving walkers behind. The feature specs and product slop filter benefit walkers most — they stop getting bug tickets they can't understand because now there's an authoritative spec to consult.
 
-## The 3 Commands
+## GitHub Copilot Compatibility
 
-### `/project:start-pr {num} {slug}`
-Creates a feature branch and a docs folder with blank templates.
+Same as Walk — tool-agnostic. Commands are markdown files with explicit context. Works with Copilot CLI, Copilot Cloud Agents, Claude Code, or any AI tool that reads command files.
 
-**What you get:**
-```
-docs/prs/planning/2026-04-10-PR-001-my-first-feature/
-├── RESEARCH.md              ← Fill FIRST
-├── TEST-STRATEGY.md         ← Fill SECOND  
-├── IMPLEMENTATION-PLAN.md   ← Fill THIRD
-└── IMPLEMENTATION.md        ← Filled by execute-pr
-```
+## References
 
-### `/project:execute-pr {num}`
-Reads your IMPLEMENTATION-PLAN.md and implements it step by step with progress tracking.
+- **MIT NANDA — GenAI Divide 2025**: https://fortune.com/2025/08/18/mit-report-95-percent-generative-ai-pilots-at-companies-failing-cfo/
+- **Anthropic — Claude Code best practices**: https://code.claude.com/docs/en/best-practices
+- **GitHub — Continuous AI**: https://github.blog/ai-and-ml/automate-repository-tasks-with-github-agentic-workflows/
 
-**Before running this**, fill the docs in order:
-1. **RESEARCH.md** — What's the problem? What options exist? (Iterate with AI: "what am I missing?")
-2. **TEST-STRATEGY.md** — What are the acceptance criteria? What tests prove it works?
-3. **IMPLEMENTATION-PLAN.md** — Step-by-step plan mapped to the acceptance criteria.
+## License
 
-> The fill order matters. You can't plan until you've defined "done." You can't define "done" until you understand the problem.
-
-### `/project:review-pr {num}`
-AI code review → docs-gate check → merge → archive → close. All in one command.
-
-**What happens:**
-1. Spawns a fresh AI reviewer (clean context, independent read)
-2. Generates REVIEW.md with verdict, per-AC coverage, risk assessment
-3. Checks that all required docs exist (same check CI runs)
-4. If approved: merges the PR, archives the docs, updates indexes
-5. If issues found: tells you what to fix
-
----
-
-## What's in the Repo
-
-```
-.claude/commands/project/
-  start-pr.md          # Create branch + docs
-  execute-pr.md        # Implement from plan
-  review-pr.md         # Review + merge + close
-  decision.md          # Create Architecture Decision Record
-  context-update.md    # Refresh project context docs
-
-docs/.context/           # Project brain — AI reads these at session start
-  ARCHITECTURE-TAXONOMY.md   # Your system layers and boundaries
-  KNOWN_ISSUES.md            # Bugs and tech debt
-  ROADMAP.md                 # Phase-level plan
-  CURRENT_SPRINT.md          # What's in flight now
-  ACTIVE_PRS.md              # Open and recently merged PRs
-  RECENT_DECISIONS.md        # Latest architectural decisions
-
-docs/decisions/          # Architecture Decision Records
-  _INDEX.md              # Master list of all decisions
-  _TEMPLATE.md           # Blank ADR template
-
-docs/prs/                # PR paper trails
-  planning/              # PRs being researched/planned
-  implementing/          # PRs being coded
-  _archive/              # Merged PRs (includes a filled example)
-  _TEMPLATE/             # Blank templates for new PRs
-
-scripts/
-  pr_docs_check.py       # Docs-gate validation script
-
-.github/workflows/
-  pr-docs-gate.yml       # CI: blocks merge if docs are missing
-```
-
----
-
-## The Philosophy
-
-**Old world**: Think 10% → Code 40% → Discover problems 20% → Fix 30%.
-
-**This scaffold**: Think 65% → Code 25% → Verify 10%.
-
-You spend most of your effort in RESEARCH → TEST-STRATEGY → IMPLEMENTATION-PLAN. By the time you run `/execute-pr`, the thinking is done. Execution is mechanical.
-
----
-
-## CI Docs Gate
-
-Every PR to `main` triggers `.github/workflows/pr-docs-gate.yml`.
-
-**Blocks merge if:**
-- RESEARCH.md is missing or empty
-- TEST-STRATEGY.md is missing or empty
-- IMPLEMENTATION-PLAN.md is missing or empty
-
-**Exempt:** PRs with 5 or fewer changed lines in docs/config files.
-
----
-
-## Example
-
-See `docs/prs/_archive/2026-01-15-PR-001-add-user-registration/` for a complete example with all docs filled. Use it as a reference for your first PR.
-
----
-
-## Context Docs
-
-Files in `docs/.context/` are read by AI at the start of every session. Keep them accurate:
-
-| File | What to put in it | Who updates it |
-|------|-------------------|----------------|
-| `ARCHITECTURE-TAXONOMY.md` | System layers, boundaries, key abstractions | Tech Lead |
-| `KNOWN_ISSUES.md` | Active bugs and tech debt (P0/P1/P2) | QA / anyone |
-| `ROADMAP.md` | Phase-level goals (not sprint-level) | PM |
-| `CURRENT_SPRINT.md` | Sprint goal and active items | PM / Scrum Master |
-| `ACTIVE_PRS.md` | Open PRs (auto-updated by commands) | Automated |
-| `RECENT_DECISIONS.md` | Latest ADRs (auto-updated by /decision) | Automated |
-
----
-
-## Architecture Decision Records
-
-When you make a significant technical decision:
-
-```
-/project:decision jwt-authentication
-```
-
-This creates a file in `docs/decisions/` and updates the index. Use ADRs when you're choosing between approaches, making trade-offs, or doing something a future developer will question.
-
----
-
-## Leveling Up
-
-This is the **Walk** scaffold (Level 1-2). When your team is ready for:
-- Stakeholder alignment scoring (digital twin evaluation of every PR)
-- Compound self-model loop (organizational learning that compounds)
-- Power-user commands (AI-assisted planning, automated PR descriptions, etc.)
-
-Upgrade to **Run**: [ai-native-dev-scaffold-run](https://github.com/Epistemic-Me/ai-native-dev-scaffold-run)
-
-Same 3 commands. `review-pr` just does more behind the scenes.
-
----
-
-## FAQ
-
-**Q: Do I need Claude Code?**
-A: The commands are written for Claude Code, but the structure works with any AI assistant. The docs, CI gate, and ADRs are tool-agnostic.
-
-**Q: Do I need all the docs for every PR?**
-A: The CI gate exempts PRs with 5 or fewer changed lines. For typo fixes, skip the docs.
-
-**Q: What if I disagree with the AI review?**
-A: Update REVIEW.md with your reasoning. The review is a tool, not a boss.
-
-**Q: Can I add more commands?**
-A: Yes. The Run repo has 20+ additional commands. Or write your own in `.claude/commands/`.
-
----
-
-MIT License. Built by [Epistemic Me](https://github.com/Epistemic-Me).
+MIT
