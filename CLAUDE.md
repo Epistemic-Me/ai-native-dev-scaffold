@@ -1,16 +1,26 @@
 # Claude Code Project Context
 
-This project uses the AI-Native Development Lifecycle with a 3-command PR workflow.
+This project is the **Run** stage of the Walk → Run → Sprint AI-native maturity model. It extends the Walk baseline with authoritative per-feature specs, a product slop filter, compound learning from your own PR history, and ADRs with predicted outcomes. Clarity integration begins here as intent capture; at Sprint stage it goes deep with external customer twins.
 
-## The 3-Command Loop
+## You Are Here: Walk / Run / Sprint
+
+- **Walk** — Context foundation + 5-stage PR lifecycle + docs-gate CI. The operational baseline. See [`ai-native-dev-scaffold-walk`](https://github.com/Epistemic-Me/ai-native-dev-scaffold-walk).
+- **Run** *(← you are here)* — Walk + `docs/specs/` authoritative feature specs + product slop filter + `/compound` (internal episodes) + ADR predicted outcomes. Mature engineering org with institutional memory.
+- **Sprint** — Run + digital twins of external stakeholders + `/stakeholder-alignment` against customer voice + `/process-transcript` + self-model API. See [`ai-native-dev-scaffold-sprint`](https://github.com/Epistemic-Me/ai-native-dev-scaffold-sprint).
+
+**Don't start here.** Clone the Walk scaffold first and run it for 2 sprints. Graduate to this repo when scattered feature specs and SME bottlenecks become the limiting factor.
+
+## The PR Lifecycle (5 stages)
 
 ```
-/project:start-pr  →  /project:execute-pr  →  /project:review-pr
+/project:start-pr  →  develop  →  /project:review-pr  →  /project:check-pr  →  /project:close-pr
 ```
 
-1. **`/project:start-pr {num} {slug}`** — Create branch + docs scaffold
-2. **`/project:execute-pr {num}`** — Implement from IMPLEMENTATION-PLAN.md with tracking
-3. **`/project:review-pr {num}`** — AI review + docs-gate + merge + archive + close
+1. **`/project:start-pr {num} {slug}`** — Create branch + docs scaffold (RESEARCH / TEST-STRATEGY / IMPLEMENTATION-PLAN)
+2. **develop** — Iterate on the artifacts, then implement against IMPLEMENTATION-PLAN.md
+3. **`/project:review-pr {num}`** — AI code review + verdict written to REVIEW.md
+4. **`/project:check-pr {num}`** — Run docs-gate locally (same checks as CI)
+5. **`/project:close-pr {num}`** — Merge + archive docs to `_archive/` + update ACTIVE_PRS.md
 
 ## MANDATORY: PR Workflow Rules
 
@@ -86,10 +96,23 @@ Every PR to main is checked by `.github/workflows/pr-docs-gate.yml`:
 
 PRs with 5 or fewer changed lines in docs/config skip the gate.
 
+## Credential Policy (Walk-stage foundation)
+
+This repo treats tool access and secrets as **context that must be declared**, not tribal knowledge. Agents and new engineers read this policy before touching anything.
+
+1. **No secrets in the repo.** `.env` files are gitignored. `.env.example` documents what variables exist without values. Secrets in commits are a blocking issue — rotate immediately and force-push a clean history.
+2. **Vault is the source of truth.** Every credential has a canonical path like `vault://engineering/{service}`. `CLAUDE.md`, `docs/.context/MCP_SERVERS.md`, and ticket Context Declarations reference vault paths, never the secret values.
+3. **Service accounts, not personal credentials.** AI agents run as a dedicated identity separate from human developers. Linear, GitHub, and any third-party API access use a bot account whose blast radius is bounded.
+4. **Least-privilege per task.** Credentials loaded for a ticket grant access only to what that ticket needs. No blanket admin tokens for day-to-day work.
+5. **Short-lived where possible.** Prefer dynamic, expiring credentials over long-lived static keys. The exact mechanism (Vault dynamic secrets, 1Password Unified Access, cloud IAM role assumption, etc.) is an org-level choice — this scaffold declares the policy, not the vendor.
+
+See `docs/.context/MCP_SERVERS.md` for per-server credential paths and the Context Declaration template for ticket descriptions.
+
 ## Best Practices
 
 - **Fill RESEARCH.md before coding** — understand the problem first
 - **Define exit criteria in TEST-STRATEGY.md before planning** — know what "done" looks like
+- **Declare context up-front** — every ticket includes a Context Declaration block (see `docs/.context/MCP_SERVERS.md`)
 - **Update docs when scope changes** — docs lead, code follows
 - **Record significant decisions as ADRs** — especially ones future devs will question
 - **Run `/project:context-update` regularly** — keep the project brain current
