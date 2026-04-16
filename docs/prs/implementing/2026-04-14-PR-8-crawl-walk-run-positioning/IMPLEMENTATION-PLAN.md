@@ -38,13 +38,13 @@ Create `docs/.context/MCP_SERVERS.md` with three sections:
 - Rewrite the lifecycle to real 5 stages: `/start-pr → develop → /review-pr → /check-pr → /close-pr`
 
 ### Step 3: CLAUDE.md credential policy (AC3)
-- Append "Credential Policy (Crawl-stage foundation)" section with 5 abstract principles
+- Append "Credential Policy (Walk-stage foundation)" section with 5 abstract principles
 - Reference MCP_SERVERS.md for per-server paths
 
 ### Step 4: README.md (AC5)
 - Change title from "AI-Native Development Scaffold" to "AI-Native Development Scaffold — Walk Stage"
 - Replace subtitle and lifecycle block with real 5-stage version
-- Insert "You Are Here: Crawl / Walk / Run" table with links to `ai-native-dev-scaffold-walk` and `ai-native-dev-scaffold-sprint`
+- Insert "You Are Here: Walk / Walk / Run" table with links to `ai-native-dev-scaffold-walk` and `ai-native-dev-scaffold-sprint`
 
 ## Verification Checklist
 

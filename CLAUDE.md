@@ -96,7 +96,7 @@ Every PR to main is checked by `.github/workflows/pr-docs-gate.yml`:
 
 PRs with 5 or fewer changed lines in docs/config skip the gate.
 
-## Credential Policy (Crawl-stage foundation)
+## Credential Policy (Walk-stage foundation)
 
 This repo treats tool access and secrets as **context that must be declared**, not tribal knowledge. Agents and new engineers read this policy before touching anything.
 

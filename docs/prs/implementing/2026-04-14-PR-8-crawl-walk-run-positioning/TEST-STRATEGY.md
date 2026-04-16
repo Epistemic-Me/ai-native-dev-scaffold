@@ -7,7 +7,7 @@
 | AC1 | `docs/.context/MCP_SERVERS.md` exists with at least 3 MCP server entries and a Context Declaration template |
 | AC2 | `CLAUDE.md` references the real 5-stage lifecycle (`/start-pr → develop → /review-pr → /check-pr → /close-pr`), not the fictional 3-command loop |
 | AC3 | `CLAUDE.md` includes a Credential Policy section with 5 abstract principles (vendor-agnostic) |
-| AC4 | `CLAUDE.md` top contains a "You Are Here" Crawl/Walk/Run staircase |
+| AC4 | `CLAUDE.md` top contains a "You Are Here" Walk/Run/Sprint staircase |
 | AC5 | `README.md` title includes "Walk Stage" and contains a "You Are Here" table linking to `ai-native-dev-scaffold-walk` and `ai-native-dev-scaffold-sprint` |
 | AC6 | Existing docs-gate CI continues to pass (this PR's own docs folder satisfies RESEARCH.md / TEST-STRATEGY.md / IMPLEMENTATION-PLAN.md) |
 
